@@ -45,11 +45,16 @@ body {
 /* LIST SCREEN CONTROLS */
 #list_heading {}
 #list_trash {
-  position: absolute;
-  left: 85%;
-  width: 15%;
-  text-align: right;
-  top: 5%;
+  padding: 0;
+border: none;
+    background: transparent; 
+    display: inline-block;
+
+    position: absolute;
+    left: 85%;
+    width: 15%;
+    
+    top: 5%;
 }
 #list_details_container {
   padding-left: 2%;
@@ -102,17 +107,80 @@ body {
 }
 .list_item_card_toolbar {
   position: absolute;
-  left: 85%;
-  width: 15%;
+  left: 80%;
+  width: 20%;
   top: 5%;
   height: 90%;
   display: grid;
   grid-template-columns: 33% 33% 33%;
 }
-.list_item_card_button {
+.list_item_card_button_up {
   text-align: center;
-  border-radius: 5px;
+  border-radius: px;
   margin: 1%;
+  background-color: var(--swatch-accent);
+  color: var(--swatch-neutral);
+  font-size: 24pt;
+  font-weight: bold;
+}
+.list_item_card_button_up_disable{
+  text-align: center;
+  border-radius: px;
+  margin: 1%;
+  color: var(--swatch-neutral);
+  font-size: 24pt;
+  font-weight: bold;
+}
+.Item_modify_textfield{
+  font-size: 16px;
+  width: 70%;
+  padding: 5px 20px;
+  margin: 8px 2;
+  position: absolute;
+  box-sizing: border-box;
+  right: 0;
+
+}
+.submit_btn {
+  border-radius:20px;
+  color: rgb(0, 0, 0);
+  float: left;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.cancel_btn {
+  border-radius:20px;
+  color: rgb(0, 0, 0);
+  float: left;
+  font-size: 20px;
+  font-weight: bold;
+}
+.list_item_card_button_down {
+  text-align: center;
+  border-radius: px;
+  margin: 1%;
+  background-color: var(--swatch-accent);
+  color: var(--swatch-neutral);
+  font-size: 24pt;
+  font-weight: bold;
+}
+.list_item_card_button_down_disabled {
+  text-align: center;
+  border-radius: px;
+  margin: 1%;
+  color: var(--swatch-neutral);
+  font-size: 24pt;
+  font-weight: bold;
+}
+.list_item_card_button_x {
+  text-align: center;
+  border-radius: px;
+  margin: 1%;
+  background-color: var(--swatch-accent);
+  color: var(--swatch-neutral);
+  font-size: 24pt;
+  font-weight: bold;
 }
 .list_item_add_card {
   text-align: center;
@@ -141,4 +209,31 @@ body {
 }
 .item_input {
   grid-column: 2 / 4;
+}
+
+.delete_popup{
+  z-index: 1;
+  position: absolute;  
+  width: 75%;  
+  height: 90%;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;  
+  background-color: #EEEEDD; /* Fallback color */
+
+}
+
+.popup\_inner {  
+  position: absolute;  
+  left: 25%;  
+  right: 25%;  
+  top: 25%;  
+  bottom: 25%;  
+  margin: auto;  
+  border-radius: 20px;
+  background-color: rgb(0,0,0); /* Fallback color */
+  
+  
 }
