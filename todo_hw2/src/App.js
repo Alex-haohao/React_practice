@@ -4,12 +4,25 @@ import HomeScreen from './components/home_screen/HomeScreen'
 import ItemScreen from './components/item_screen/ItemScreen'
 import ListScreen from './components/list_screen/ListScreen'
 
+import jTPS from './jTPS_js'
+import NAME from './namechange.js'
+import MOVEUP from './moveup'
+import MOVEDOWN from './movedown'
+import DELETE from './delete'
+import SUBMIT from './submit'
+
 const AppScreen = {
   HOME_SCREEN: "HOME_SCREEN",
   LIST_SCREEN: "LIST_SCREEN",
   ITEM_SCREEN: "ITEM_SCREEN",
   TRASH_SCREEN: "TRASH_SCREEN"
 }
+
+
+
+
+var save = new jTPS()
+
 
 class App extends Component {
   state = {
@@ -23,10 +36,58 @@ class App extends Component {
     taskorder:false,
     dueorder:false,
     statusorder:false,
-    
   }
 
+
+
+/////////////////////////////////////////
+constructor(props){
+    super(props);
+    this.undo_key = this.undo_key.bind(this);
+    this.redo_key = this.redo_key.bind(this);
+
+  }
+  showMessage () {
+    alert('SOME MESSAGE');
+  }
+
+  undo_key(e){
+    if(e.keyCode===90 && e.ctrlKey) {
+      save.undoTransaction();
+      this.loadList(this.state.currentList)
+    }
+  }
+
+  redo_key(e){
+    if(e.keyCode===89 && e.ctrlKey) {
+      console.log("redo")
+      save.doTransaction();
+      this.loadList(this.state.currentList)
+
+      
+
+    }
+  }
+
+  componentDidMount(){
+    document.addEventListener('keydown',this.redo_key);
+
+    document.addEventListener('keydown',this.undo_key);
+
+
+  }
+  componentWillUnmount(){
+        document.removeEventListener('keydown',this.redo_key);
+
+    document.removeEventListener('keydown',this.undo_key);
+
+  }
+
+
+/////////////////////////////////////////
+
   
+
 
 
 /////////////////////////////////
@@ -71,14 +132,16 @@ sortstatus = (todoListToLoad) => {
 
 deleteItem = (id,event) => {
   event.stopPropagation()
-  this.state.currentitems = this.state.currentList.items.filter(Item => Item !== id);
-  this.state.currentList.items = this.state.currentitems;
+
+var original = [...this.state.currentList.items]
+save.addTransaction(new DELETE(this.state.currentList,id,original))
+  
+ 
   
   
   this.setState({currentScreen: AppScreen.LIST_SCREEN});
 
-  console.log(this.state.currentList.items)
-  console.log(this.state.currentitems)
+ 
 }
 
 
@@ -88,30 +151,12 @@ moveupItem = (id,event) => {
 
 var currentindex = this.state.currentList.items.indexOf(id)
 
+var original = [...this.state.currentList.items]
+save.addTransaction(new MOVEUP(this.state.currentList,currentindex,id,original))
 
-  if(currentindex -1 >=0){
-    var currentitem = {
-      "key": id.key,
-      "description": id.description,
-      "due_date": id.due_date,
-      "assigned_to": id.assigned_to,
-      "completed": id.completed
-  };
-  var uppperitem = {
-    "key": this.state.currentList.items[currentindex-1].key,
-    "description": this.state.currentList.items[currentindex-1].description,
-    "due_date": this.state.currentList.items[currentindex-1].due_date,
-    "assigned_to": this.state.currentList.items[currentindex-1].assigned_to,
-    "completed": this.state.currentList.items[currentindex-1].completed
-  };
+  
 
-  this.state.currentList.items[currentindex] = uppperitem;
-  this.state.currentList.items[currentindex-1] = currentitem;
-    
-   
-  }
-
-  this.setState({currentScreen: AppScreen.LIST_SCREEN});
+this.setState({currentScreen: AppScreen.LIST_SCREEN});
 
   event.stopPropagation();
 
@@ -119,29 +164,11 @@ var currentindex = this.state.currentList.items.indexOf(id)
 
 movedownItem = (id,event) =>{
 
+  
   var currentindex = this.state.currentList.items.indexOf(id)
   
-  if(currentindex <this.state.currentList.items.length - 1){
-    var currentitem = {
-      "key": id.key,
-      "description": id.description,
-      "due_date": id.due_date,
-      "assigned_to": id.assigned_to,
-      "completed": id.completed
-  };
-  var uppperitem = {
-    "key": this.state.currentList.items[currentindex+1].key,
-    "description": this.state.currentList.items[currentindex+1].description,
-    "due_date": this.state.currentList.items[currentindex+1].due_date,
-    "assigned_to": this.state.currentList.items[currentindex+1].assigned_to,
-    "completed": this.state.currentList.items[currentindex+1].completed
-  };
-
-  this.state.currentList.items[currentindex] = uppperitem;
-  this.state.currentList.items[currentindex+1] = currentitem;
-    
-   
-  }
+  var original = [...this.state.currentList.items]
+save.addTransaction(new MOVEDOWN(this.state.currentList,currentindex,id,original))
 
   this.setState({currentScreen: AppScreen.LIST_SCREEN});
 
@@ -198,6 +225,8 @@ movedownItem = (id,event) =>{
 
 
 
+
+
   goHome = () => {
     this.setState({currentScreen: AppScreen.HOME_SCREEN});
     this.setState({currentList: null});
@@ -210,14 +239,23 @@ movedownItem = (id,event) =>{
     this.setState({currentItem: listItem});
   }
 
+
   submitItem = (todoListToLoad,description,duedate,assignedto,completed) => {
     this.setState({currentScreen: AppScreen.ITEM_SCREEN});
     this.setState({itempopup: !this.state.itempopup});
+
+    var original = {
+      
+      "key": this.state.currentItem.key,
+      "description": this.state.currentItem.description,
+      "due_date": this.state.currentItem.due_date,
+      "assigned_to": this.state.currentItem.assigned_to,
+      "completed": this.state.currentItem.completed
+
+};
+    save.addTransaction(new SUBMIT(this.state.currentItem,description,duedate,assignedto,completed,original))
    
-    this.state.currentItem.description = description;
-    this.state.currentItem.due_date = duedate;
-    this.state.currentItem.assigned_to = assignedto;
-    this.state.currentItem.completed = completed;
+   
   }
 
   loadList = (todoListToLoad) => {
@@ -231,18 +269,25 @@ movedownItem = (id,event) =>{
   }
 
  
-
+  
   render() {
+    
     switch(this.state.currentScreen) {
+      
       case AppScreen.HOME_SCREEN:
+          
         return <HomeScreen 
         createlist = {this.createlist.bind(this)}
         loadList={this.loadList.bind(this)} 
         todoLists={this.state.todoLists} 
         currentList = {this.state.currentList}
+        save = {save}
         />;  
-      case AppScreen.LIST_SCREEN:            
+      case AppScreen.LIST_SCREEN:    
+              
         return <ListScreen
+        loadList={this.loadList.bind(this)} 
+
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList}
           delete = {this.delete.bind(this)}
@@ -255,6 +300,9 @@ movedownItem = (id,event) =>{
           createItem = {this.createItem.bind(this)}
           moveupItem = {this.moveupItem.bind(this)}
           movedownItem = {this.movedownItem.bind(this)}
+          undo_key = {this.undo_key.bind(this)}
+          redo_key = {this.redo_key.bind(this)}
+          save = {save}
           />;
           
           
@@ -273,6 +321,8 @@ movedownItem = (id,event) =>{
       }
       else{
         return <ListScreen
+        loadList={this.loadList.bind(this)} 
+
         goHome={this.goHome.bind(this)}
         todoList={this.state.currentList}
         delete = {this.delete.bind(this)}
@@ -285,6 +335,10 @@ movedownItem = (id,event) =>{
         createItem = {this.createItem.bind(this)}
         moveupItem = {this.moveupItem.bind(this)}
         movedownItem = {this.movedownItem.bind(this)}
+        undo_key = {this.undo_key.bind(this)}
+        redo_key = {this.redo_key.bind(this)}
+        save = {save}
+
         />;
       }
         
@@ -293,6 +347,7 @@ movedownItem = (id,event) =>{
               default:
         return <div>ERROR</div>;
     }
+
   }
 }
 

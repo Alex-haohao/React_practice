@@ -4,7 +4,9 @@ import ListItemsTable from './ListItemsTable'
 import ListTrash from './ListTrash'
 import PropTypes from 'prop-types';
 import ListTrashScreen from './ListTrashScreen'
-
+import jTPS from '../../jTPS_js'
+import NAME from '../../namechange'
+import OWNER from '../../owner'
 
 export class ListScreen extends Component {
 
@@ -14,19 +16,25 @@ export class ListScreen extends Component {
         Owner: this.props.todoList.owner,
         showPopup: false,
         currentitemsmax:null
-
       }
 
 
-
+    
     handleNameChange(event) {
+        var prename = this.props.todoList.name
+        this.props.save.addTransaction(new NAME(this.props.todoList,event.target,prename))
         this.setState({[event.target.name]: event.target.value});
-        this.props.todoList.name = event.target.value;
+        this.props.loadList.bind(this, this.props.todoList)
+        
+
       }
 
     handleOwnerChange(event) {
+        var preOwner = this.props.todoList.owner
+        this.props.save.addTransaction(new OWNER(this.props.todoList,event.target,preOwner))
         this.setState({[event.target.name]: event.target.value});
-        this.props.todoList.owner = event.target.value;
+        this.props.loadList.bind(this, this.props.todoList)
+
       }
 
     getListName() {
@@ -52,12 +60,6 @@ export class ListScreen extends Component {
             this.state.currentitemsmax =this.props.todoList.items.length
         }
         
-        // while(typeof this.props.todoList.items.key!='undefined'){
-        //     i++;
-        // }
-        // this.state.currentitemsmax =i;
-        
-        
 
         var sorted = [...this.props.todoList.items]
         sorted = sorted.sort((a, b) =>  (a.key > b.key) ? 1 : -1 )
@@ -68,7 +70,6 @@ export class ListScreen extends Component {
                 }  
                 i=i+1;
             }
-            console.log("===",this.state.currentitemsmax)
 
 
 

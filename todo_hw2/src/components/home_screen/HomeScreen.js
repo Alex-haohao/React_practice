@@ -3,6 +3,7 @@ import Banner from './Banner'
 import HomeHeader from './HomeHeader'
 import TodoListLinks from './TodoListLinks'
 import PropTypes from 'prop-types';
+import jTPS from '../../jTPS_js'
 
 export class HomeScreen extends Component {
     state = {
@@ -12,6 +13,7 @@ export class HomeScreen extends Component {
 
 
     render() {
+        this.props.save.clearAllTransactions();
         if(this.state.listmax ===null){
             this.state.listmax =this.props.todoLists.length
         }
