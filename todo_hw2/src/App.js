@@ -10,6 +10,13 @@ import MOVEUP from './moveup'
 import MOVEDOWN from './movedown'
 import DELETE from './delete'
 import SUBMIT from './submit'
+import TASKFALSE from './sorttask_false'
+import TASKTRUE from  './sorttask_true'
+import DUEFALSE from './sortdue_false'
+import DUETRUE from './sortdue_true'
+import STATUSFALSE from './sortstatus_false'
+import STATUSTRUE from './sortstatus_true'
+
 
 const AppScreen = {
   HOME_SCREEN: "HOME_SCREEN",
@@ -93,23 +100,33 @@ constructor(props){
 /////////////////////////////////
 sorttask = (todoListToLoad) => {
   if(this.state.taskorder === false){
-    this.state.currentList.items.sort((a, b) =>  (b.description > a.description) ? 1 : -1 );
+    var original = [...this.state.currentList.items]
+    save.addTransaction(new TASKFALSE(this.state.currentList,original))
+    
+    
     this.setState({taskorder: !this.state.taskorder});
   }
   else{
-    this.state.currentList.items.sort((a, b) =>  (a.description > b.description) ? 1 : -1 );
+    var original = [...this.state.currentList.items]
+    save.addTransaction(new TASKTRUE(this.state.currentList,original))
     this.setState({taskorder: !this.state.taskorder});
   }
+  
+
   this.setState({currentScreen: AppScreen.LIST_SCREEN});
 }
 
 sortdue = (todoListToLoad) => {
   if(this.state.dueorder === false){
-    this.state.currentList.items.sort((a, b) =>  (b.due_date > a.due_date) ? 1 : -1 );
+    var original = [...this.state.currentList.items]
+    save.addTransaction(new DUEFALSE(this.state.currentList,original))
+
     this.setState({dueorder: !this.state.dueorder});
   }
   else{
-    this.state.currentList.items.sort((a, b) =>  (a.due_date > b.due_date) ? 1 : -1 );
+    var original = [...this.state.currentList.items]
+    save.addTransaction(new DUETRUE(this.state.currentList,original))
+
     this.setState({dueorder: !this.state.dueorder});
   }
   this.setState({currentScreen: AppScreen.LIST_SCREEN});
@@ -117,11 +134,15 @@ sortdue = (todoListToLoad) => {
 
 sortstatus = (todoListToLoad) => {
   if(this.state.statusorder === false){
-    this.state.currentList.items.sort((a, b) =>  (b.completed > a.completed) ? 1 : -1 );
+    var original = [...this.state.currentList.items]
+    save.addTransaction(new STATUSFALSE(this.state.currentList,original))
+
     this.setState({statusorder: !this.state.statusorder});
   }
   else{
-    this.state.currentList.items.sort((a, b) =>  (a.completed > b.completed) ? 1 : -1 );
+    var original = [...this.state.currentList.items]
+    save.addTransaction(new STATUSTRUE(this.state.currentList,original))
+    
     this.setState({statusorder: !this.state.statusorder});
   }
   this.setState({currentScreen: AppScreen.LIST_SCREEN});
