@@ -8,6 +8,10 @@ import { getFirestore } from 'redux-firestore';
 
 
 class HomeScreen extends Component {
+    state = {
+        temp : null
+      }
+
 
     handleNewList = () => {
         const fireStore = getFirestore();
@@ -41,9 +45,12 @@ class HomeScreen extends Component {
                         </div>
                         
                         <div className="home_new_list_container">
+                        {/* <Link to={"/todoList/"+this.props.id} ></Link> */}
                                 <button className="home_new_list_button" onClick={this.handleNewList}>
                                     Create a New To Do List
                                 </button>
+
+
                         </div>
                     </div>
                 </div>
