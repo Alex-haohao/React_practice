@@ -48,3 +48,40 @@ input[type=email]:not(.browser-default):focus:not([readonly]) + label,
 input[type=password]:not(.browser-default):focus:not([readonly]) + label{
   color: #ec407a !important;
 }
+
+.list_item_card_description {
+  position: absolute;
+  left: 2%;
+}
+.list_item_card_assigned_to, .list_item_card_due_date, 
+.list_item_card_completed, .list_item_card_not_completed {
+  position: absolute;
+  top: 50%;
+}
+
+.delete_popup{
+  z-index: 1;
+  position: fixed;  
+  width: 50%;  
+  height: 50%;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;  
+  background-color: #EEEEDD; /* Fallback color */
+
+}
+#home_your_lists_heading {}
+.popup\_inner {  
+  position: fixed;  
+  left: 25%;  
+  right: 25%;  
+  top: 25%;  
+  bottom: 25%;  
+  margin: auto;  
+  border-radius: 20px;
+  background-color: rgb(0,0,0); /* Fallback color */
+  
+  
+}
