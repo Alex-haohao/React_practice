@@ -12,13 +12,16 @@ class HomeScreen extends Component {
         temp : null
       }
 
+      
+
 
     handleNewList = () => {
         const fireStore = getFirestore();
             fireStore.collection('todoLists').add({
                     name: "Unknow",
                     owner: "Unknow",
-                    items: []
+                    items: [],
+                    createdAt: fireStore.FieldValue.serverTimestamp(),
                 }).then(() => {
                     console.log("add new data");
                 }).catch((err) => {
@@ -69,6 +72,6 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      { collection: 'todoLists' },
+      { collection: 'todoLists' , orderBy:['createdAt','desc'] },
     ]),
 )(HomeScreen);

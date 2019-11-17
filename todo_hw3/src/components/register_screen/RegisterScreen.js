@@ -22,6 +22,8 @@ class RegisterScreen extends Component {
     }));
   }
 
+  
+
   handleSubmit = (e) => {
     e.preventDefault();
 

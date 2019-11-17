@@ -70,7 +70,7 @@ class ItemsList extends React.Component {
     <nav>
     <div class="row">
     {/* <div type ="button" class="col s12 m6 l3 large" onClick={this.props.sorttask}>Task</div> */}
-    <div className="col s12 m6 l3 large" onClick={this.props.sorttask} to={"./"+todoList.id} >Task</div>
+    <div className="col s12 m6 l4 large" onClick={this.props.sorttask} to={"./"+todoList.id} >Task</div>
     <div className="col s12 m6 l3 large" onClick={this.props.sortdue} to={"./"+todoList.id} >Due Date</div>
     <div className="col s12 m6 l3 large" onClick={this.props.sortstatus} to={"./"+todoList.id} >Status</div>
 
@@ -96,10 +96,15 @@ class ItemsList extends React.Component {
                     );})
                 }
             </div>
-           
             <nav className="waves-effect waves-light btn grey lighten-2" onClick={this.handlNewItem} >
+            <Link to={"/todoList/"+todoList.id+"/"+(this.props.todoList.items.length-1)} className="waves-effect waves-light btn" >
+
+            
             +
+               
+                </Link>
                 </nav>
+
             </div>
         );
     }

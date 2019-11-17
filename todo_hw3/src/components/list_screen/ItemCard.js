@@ -29,19 +29,28 @@ class ItemCard extends React.Component {
 
         
         return (
+
+             
             <div className="card z-depth-0 todo-list-link grey lighten-2">
                  <Link to={'/todoList/' + this.props.listid+"/"+this.props.itemid} 
                  todoList = {this.props.todoList}
                  key={this.props.itemid}>
-                     
+                     <div class = "row">  
                 <div className="card-content black-text text-darken-3">
+                    
+                    
                     <span className="card-title">{item.description}</span>  
+                    <div class = "col s12 m4">  
                     <span className="card-content "> Assigned To:  {item.assigned_to}</span>
+                    </div>
+                    <div class = "col s12 m3">  
                     <span className="card-content">{item.due_date}</span> 
+                    </div>
+                    <div class = "col s12 m2"> 
                      {item.completed ?
                     <span className="card-content green-text">completed</span>: 
                     <span className="card-content red-text">pending</span>}  
-
+                     </div>
 
 
 {/* <div class="card hover-reveal">
@@ -66,14 +75,16 @@ class ItemCard extends React.Component {
   
 
   </div>
-  <span class='hover-button--off btn'>Hover</span>
+  <span class='hover-button--off btn right'>Hover</span>
 </div> 
 
 
                  
                 </div>
+                </div>
                  </Link>
             </div>
+            
         );
     }
 }
