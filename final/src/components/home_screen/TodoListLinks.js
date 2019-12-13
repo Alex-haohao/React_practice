@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import TodoListCard from './TodoListCard';
 import { getFirestore } from 'redux-firestore';
+import ReactDOM from "react-dom";
+import { firestoreConnect } from 'react-redux-firebase';
 
 class TodoListLinks extends React.Component {
 
@@ -24,10 +26,26 @@ class TodoListLinks extends React.Component {
 
     render() {
         const wireframes = this.props.wireframes;
-        console.log(wireframes);
+        const fireStore = getFirestore();
+        const userid = this.props.auth.uid;
+
+        const snapshot = this.props.users
+        
+
+        
+        // const isadmin = docdata.isadmin
+        if(this.props.users){
+        const users = this.props.users
+        const user = users.filter(each => (each.id == userid ))
+         console.log("is admin: "+user[0].id)
+        }
+
+      
+        
         return (
             <div className="todo-lists section" >
-                {wireframes && wireframes.map(wireframe => (
+                {wireframes && wireframes.filter(wireframe => (wireframe.userid == this.props.auth.uid))
+                .map(wireframe => (
                     <Link to={'/wireframes/' + wireframe.id} key={wireframe.id}  onClick={() => {
                         const fireStore = getFirestore();
             fireStore.collection('wireframes').doc(wireframe.id).update({
@@ -44,14 +62,21 @@ class TodoListLinks extends React.Component {
                 ))}
             </div>
         );
+
+
+
     }
 }
 
 const mapStateToProps = (state) => {
     return {
+        users: state.firestore.ordered.users,
         wireframes: state.firestore.ordered.wireframes,
         auth: state.firebase.auth,
+        
     };
 };
 
-export default compose(connect(mapStateToProps))(TodoListLinks);
+export default compose(connect(mapStateToProps),firestoreConnect([
+    {collection: 'users'},
+]))(TodoListLinks);

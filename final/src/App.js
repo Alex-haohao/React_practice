@@ -9,7 +9,7 @@ import RegisterScreen from './components/register_screen/RegisterScreen.js';
 import LoginScreen from './components/login_screen/LoginScreen.js';
 import HomeScreen from './components/home_screen/HomeScreen.js';
 import DatabaseTester from './test/DatabaseTester'
- 
+import WireframScreen from './components/wireframe/wireframeScreen.js'
 
 class App extends Component {
   render() {
@@ -24,6 +24,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={HomeScreen} />
               <Route path="/databaseTester" component={DatabaseTester} />
+              <Route path="/wireframes/:id" component={WireframScreen} />
 
               <Route path="/register" component={RegisterScreen} />
               <Route path="/login" component={LoginScreen} />

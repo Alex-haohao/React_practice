@@ -29,6 +29,9 @@ class HomeScreen extends Component {
     }
 
     render() {
+        var user = this.props.auth.uid;
+        console.log("current user: "+user)
+
         if (!this.props.auth.uid) {
             return <Redirect to="/login" />;
         }
