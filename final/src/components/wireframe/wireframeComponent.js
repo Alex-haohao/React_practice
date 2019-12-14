@@ -4,10 +4,9 @@ class wireframeComponent extends React.Component {
 
     render() {
         const {item} = this.props;
-        console.log(item);
        if(item.type === "container"){
         return (
-            <div style={{position : "absolute",
+            <div  style={{position : "absolute",
             left : item.x_position,
             top :item.y_position,
             backgroundColor:item.background,
@@ -18,7 +17,7 @@ class wireframeComponent extends React.Component {
             width : item.width,
             height : item.height,
             zIndex:1   }}
-            
+            id = {item.id}
             onClick = {this.props.handleClick.bind(this)}
             >
 
@@ -39,6 +38,7 @@ class wireframeComponent extends React.Component {
                 width : item.width,
                 height : item.height,
                 zIndex:2    }}
+                id = {item.id}
                 onClick = {this.props.handleClick.bind(this)}>
                 </input>
             );
@@ -50,13 +50,14 @@ class wireframeComponent extends React.Component {
                 left : item.x_position,
                 top :item.y_position,
                 backgroundColor:item.background,
-                borderColor : "none",
-                borderRadius : "none",
-                borderWidth : "none",
+                borderColor : item.border_color,
+                borderRadius : item.border_radius,
+                borderWidth : item.border_thickness,
                 fontSize : item.font,
                 width : item.width,
                 height : item.height,
                 zIndex:2    }}
+                id = {item.id}
                 onClick = {this.props.handleClick.bind(this)}>
                 </input>
             );
@@ -68,13 +69,14 @@ class wireframeComponent extends React.Component {
                 left : item.x_position,
                 top :item.y_position,
                 backgroundColor:item.background,
-                borderColor : "none",
-                borderRadius : "none",
-                borderWidth : "none",
+                borderColor : item.border_color,
+                borderRadius : item.border_radius,
+                borderWidth : item.border_thickness,
                 fontSize : item.font,
                 width : item.width,
                 height : item.height,
                 zIndex:2    }}
+                id = {item.id}
                 onClick = {this.props.handleClick.bind(this)}>
                 </button>
 
@@ -93,6 +95,7 @@ class wireframeComponent extends React.Component {
                 width : item.width,
                 height : item.height,
                 zIndex:1    }}
+                id = {item.id}
                 onClick = {this.props.handleClick.bind(this)}>
                 </div>
             )

@@ -11,160 +11,188 @@ import WireframeComponent from './wireframeComponent.js'
 class WireframeScreen extends Component {
     
     state = {
+        x_position : 0,
+        y_position :0,
+        borderRadius : 0,
+        type: null,
+        borderWidth : 0,
+        fontSize : 0,
+        width : 0,
+        height : 0,
+        id:0,
         
         display_backgroundcolor_ColorPicker: false,
-        backgroundcolor: {
-            r: '241',
-            g: '112',
-            b: '19',
-            a: '1',
-          },
+        backgroundcolor: "#BCAFAB",
         display_border_ColorPicker: false,
-        bordercolor: {
-            r: '241',
-            g: '112',
-            b: '19',
-            a: '1',
-          },
+        bordercolor: "#BCAFAB",
           items : null,
       };
 
-      handleClick = (event) => {
-        // accessible
-        //event.target.style
-        console.log("hahahaha")
+      handle_submit_property =()=>{
+          const itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
+          const item = itemarray[0]
+          console.log(item)
 
-        console.log("style"+event.target.style.position)
-        //event.target.classList //to change style via css
+          item.x_position = this.state.x_position;
+          item.y_position = this.state.y_position;
+          item.background= this.state.backgroundcolor;
+          item.border_color = this.state.bordercolor;
+          item.border_radius = this.state.borderRadius;
+          item.border_thickness = this.state.borderWidth;
+          item.font = this.state.fontSize;
+          item.width = this.state.width;
+          item.height = this.state.height;
+          this.forceUpdate();
+
+      }
+
+      handleborder_radius = (e) =>{
+        e.preventDefault()
+        const { target } = e;
+
+        this.setState(state => ({
+            ...state,
+            [target.id]: target.value,
+          }));
+        this.state.borderRadius = target.value
+       }
+
+      handleFont = (e) =>{
+        e.preventDefault()
+        const { target } = e;
+
+        this.setState(state => ({
+            ...state,
+            [target.id]: target.value,
+          }));
+        this.state.fontSize = target.value
+       }
+
+       handleborder_thickness = (e) =>{
+        e.preventDefault()
+        const { target } = e;
+
+        this.setState(state => ({
+            ...state,
+            [target.id]: target.value,
+          }));
+        this.state.borderWidth = target.value
+       }
+
+      handleClick = (event) => {
+        event.preventDefault()
+
+        
+        this.state.x_position = event.target.style.left;
+        this.state.y_position = event.target.style.top
+        this.state.borderRadius = event.target.style.borderRadius
+        this.state.borderWidth = event.target.style.borderWidth
+        this.state.fontSize = event.target.style.fontSize
+        this.state.width = event.target.style.width
+        this.state.height = event.target.style.height
+        this.state.id = event.target.id
+        this.state.backgroundcolor = event.target.style.backgroundColor
+        this.state.bordercolor = event.target.style.borderColor
+        console.log("this target   "+event.target.id)
+        console.log("x_position   "+event.target.style.borderRadius)
+        this.forceUpdate();
+
      }
 
 
       create_textfield= () => {
+
+        var sorted = [...this.props.wireframe.items]
+        sorted = sorted.sort((a, b) =>  (a.id > b.id) ? 1 : -1 )
+        const max = sorted[sorted.length -1].id +1
        
         const item = {position : "absolute",
         x_position : 100,
         y_position :400,
-        background:"yellow",
-        borderColor : "pink",
-        borderRadius : 2,
+        background:"#E2D1CC",
+        border_color : "#3EB570",
+        border_radius : 2,
         type: "textfield",
-        borderWidth : 3,
-        fontSize : 12,
+        border_thickness : 3,
+        font : 12,
         width : 70,
         height : 70,
+        id : max
             }
 
         this.props.wireframe.items.push(item);
-        console.log("hahahaha"+this.props.wireframe.items)
         this.forceUpdate();
       }
 
       create_label= () => {
-        // var label = document.createElement("INPUT");
-        // label.setAttribute("type", "text");
-        // label.innerHTML = "HAHA";
-        // label.style.position = "absolute";
-        // label.style.left = 220+'px';
-        // label.style.top = 230+'px';
-        // label.style.border = "none"
-        // label.style.borderColor="transparent";
-        // label.style.backgroundColor="white";
-        // // label.style.borderColor = "#0000FF";
-        // // label.style.borderRadius = "1";
-        // // label.style.borderWidth = "thick";
-        // label.style.fontSize = 13+'px';
-        // label.style.width = 150+'px';
-        // label.style.height = 40+'px';
-        // label.style.zIndex = 2;
-        // var body = document.getElementById("main_page");
-        // body.appendChild(label);
+        var sorted = [...this.props.wireframe.items]
+        sorted = sorted.sort((a, b) =>  (a.id > b.id) ? 1 : -1 )
+        const max = sorted[sorted.length -1].id +1
 
         const item = {position : "absolute",
         x_position : 220,
         y_position :230,
-        background:"white",
-        borderColor : "none",
-        borderRadius : 0,
+        background:"#4218EA",
+        border_color : "#FFFFFF",
+        border_radius : 0,
         type: "label",
-        borderWidth : 0,
-        fontSize : 12,
+        border_thickness : 0,
+        font : 12,
         width : 150,
         height : 40,
+        id:max
           }
 
         this.props.wireframe.items.push(item);
-        console.log("hahahaha"+this.props.wireframe.items)
         this.forceUpdate();
       }
 
+       
+
 
        create_button = () => {
-        // var button = document.createElement("button");
-        // button.innerHTML = "Do Something";
-        // button.style.position = "absolute";
-        // button.style.left = 200+'px';
-        // button.style.top = 200+'px';
-        // button.style.backgroundColor="white";
-        // button.style.borderColor = "#0000FF";
-        // button.style.borderRadius = "1";
-        // button.style.borderWidth = "thick";
-        // button.style.fontSize = 12+'px';
-        // button.style.width = 100+'px';
-        // button.style.height = 50+'px';
-        // button.style.zIndex = 2;
-        // var body = document.getElementById("main_page");
-        // body.appendChild(button);
+        var sorted = [...this.props.wireframe.items]
+        sorted = sorted.sort((a, b) =>  (a.id > b.id) ? 1 : -1 )
+        const max = sorted[sorted.length -1].id +1
 
         const item = {position : "absolute",
         x_position : 200,
         y_position :200,
-        background:"0000FF",
-        borderColor : "none",
-        borderRadius : 1,
+        background:"#FFFFFF",
+        border_color : "#FFFFFF",
+        border_radius : 1,
         type: "button",
-        borderWidth : "thick",
-        fontSize : 12,
+        border_thickness : 2,
+        font : 12,
         width : 100,
         height : 50,
+        id:max
             }
 
         this.props.wireframe.items.push(item);
-        console.log("hahahaha"+this.props.wireframe.items)
         this.forceUpdate();
       }
 
       create_container = () => {
-        // var container = document.createElement("div");
-        // container.style.position = "absolute";
-        // container.style.left = 200+'px';
-        // container.style.top = 200+'px';
-        // container.style.backgroundColor="white";
-        // container.style.borderColor = "#0000FF";
-        // container.style.borderRadius = "1";
-        // container.style.borderWidth = "thick";
-        // container.style.fontSize = 12+'px';
-        // container.style.width = 200+'px';
-        // container.style.height = 200+'px';
-        // container.style.zIndex = 1;
-
-        // var body = document.getElementById("main_page");
-        // body.appendChild(container);
+        var sorted = [...this.props.wireframe.items]
+        sorted = sorted.sort((a, b) =>  (a.id > b.id) ? 1 : -1 )
+        const max = sorted[sorted.length -1].id +1
 
         const item = {position : "absolute",
         x_position : 300,
         y_position :400,
-        background:"white",
-        borderColor : "#ffffff",
-        borderRadius : 1,
+        background:"#ffffff",
+        border_color : "#ffffff",
+        border_radius : 1,
         type: "container",
-        borderWidth : "thick",
-        fontSize : 12,
+        border_thickness : 3,
+        font : 12,
         width : 400,
         height : 400,
+        id:max
            }
 
         this.props.wireframe.items.push(item);
-        console.log("hahahaha"+this.props.wireframe.items)
         this.forceUpdate();
 
         
@@ -173,7 +201,7 @@ class WireframeScreen extends Component {
 
     
       handle_backgroundcolor_Change = (color) => {
-        this.setState({ backgroundcolor: color.rgb })
+        this.setState({ backgroundcolor: color.hex })
     };
 
       handle_backgroundcolor_Click = () => {
@@ -186,7 +214,7 @@ class WireframeScreen extends Component {
 
 
       handle_border_Change = (color) => {
-        this.setState({ bordercolor: color.rgb })
+        this.setState({ bordercolor: color.hex })
     };
 
       handle_border_Click = () => {
@@ -319,13 +347,13 @@ class WireframeScreen extends Component {
 
                 <div className="property_container">
                 <p>Properties</p>
-                <button type="button" className="waves-effect waves-light btn-small " id="property_btn">submit</button>
+                <button type="button" className="waves-effect waves-light btn-small " onClick={this.handle_submit_property} id="property_btn">submit</button>
                 <p>Font size: 
-                <input type="text" className="browser-default" value="input" id="font_input"></input> 
+                <input type="text" className="browser-default" value={this.state.fontSize} onChange={this.handleFont} id="font_input"></input> 
                 </p>
 
                 <p>Background color: 
-                <button onClick={ this.handle_backgroundcolor_Click }>Pick Color</button>
+                <button onClick={ this.handle_backgroundcolor_Click }>{this.state.backgroundcolor}</button>
         { this.state.display_backgroundcolor_ColorPicker ? <div style={ popover }>
           <div style={ cover } onClick={ this.handle_backgroundcolor_Close }/>
           <SketchPicker color={ this.state.backgroundcolor } onChange={this.handle_backgroundcolor_Change}/>
@@ -333,7 +361,7 @@ class WireframeScreen extends Component {
                 </p>
 
                 <p>Border color: 
-                <button onClick={ this.handle_border_Click }>Pick Color</button>
+                <button onClick={ this.handle_border_Click }>{this.state.bordercolor}</button>
         { this.state.display_border_ColorPicker ? <div style={ popover }>
           <div style={ cover } onClick={ this.handle_border_Close }/>
           <SketchPicker color={ this.state.bordercolor } onChange={this.handle_border_Change}/>
@@ -341,11 +369,11 @@ class WireframeScreen extends Component {
                 </p>
 
                 <p>border_thickness: 
-                <input type="text" className="browser-default" value="input" id="border_thickness"></input> 
+                <input type="text" className="browser-default" value={this.state.borderWidth} onChange={this.handleborder_thickness} id="border_thickness"></input> 
                 </p>
 
                 <p>Border Radius: 
-                <input type="text" className="browser-default" value="input" id="Border_Radius"></input> 
+                <input type="text" className="browser-default" value={this.state.borderRadius} onChange={this.handleborder_radius} id="Border_Radius"></input> 
                 </p>
             
 

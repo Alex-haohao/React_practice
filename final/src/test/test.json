@@ -15,7 +15,8 @@
                     "background":"white",
                     "border_color":"#000000",
                     "border_thickness":2,
-                    "border_radius":2
+                    "border_radius":2,
+                    "id":1
                 },
                 {
                     "x_position": 400,
@@ -27,7 +28,9 @@
                     "background":"grey",
                     "border_color":"#000000",
                     "border_thickness":4,
-                    "border_radius":1
+                    "border_radius":1,
+                    "id":2
+                    
                 },
                 {
                     "x_position": 300,
@@ -39,7 +42,8 @@
                     "background":"black",
                     "border_color":"#000000",
                     "border_thickness":1,
-                    "border_radius":1
+                    "border_radius":1,
+                    "id":3
                 }
             ]
         },
@@ -58,7 +62,8 @@
                     "background":"#d6d6d6",
                     "border_color":"#000000",
                     "border_thickness":2,
-                    "border_radius":3
+                    "border_radius":3,
+                    "id":1
                 },
                 {
                     "x_position": 200,
@@ -70,7 +75,8 @@
                     "background":"#d6d6d6",
                     "border_color":"#000000",
                     "border_thickness":4,
-                    "border_radius":5
+                    "border_radius":5,
+                    "id":2
                 },
                 {
                     "x_position": 50,
@@ -82,7 +88,8 @@
                     "background":"#d6d6d6",
                     "border_color":"#000000",
                     "border_thickness":1,
-                    "border_radius":4
+                    "border_radius":4,
+                    "id":3
                 }
             ]
         }
