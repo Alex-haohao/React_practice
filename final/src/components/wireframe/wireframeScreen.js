@@ -6,6 +6,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { Link } from 'react-router-dom';
 import { getFirestore } from 'redux-firestore';
 import { SketchPicker } from 'react-color';
+import WireframeComponent from './wireframeComponent.js'
 
 class WireframeScreen extends Component {
     state = {
@@ -144,6 +145,12 @@ class WireframeScreen extends Component {
             left: '0px',
           }
 
+         const wireframe = this.props.wireframe; 
+         if(!wireframe){
+             return<React.Fragment/>
+         }
+
+        const items = wireframe.items;
         return (
             
             <div className="todo_home">
@@ -180,7 +187,63 @@ class WireframeScreen extends Component {
                 </div>
                 </div>
 
-                <div className="middle_container" id = "main_page"></div>
+                <div className="middle_container" id = "main_page">
+                    {items.map((item) => (
+                        // const type = item.type
+                        // if(item.type === "container"){
+                        //     var elememt = document.createElement("div");
+                        //     elememt.style.zIndex = 1;
+                        // }
+                        // else if(item.type === "label"){
+                        //     var elememt = document.createElement("INPUT");
+                        //     elememt.setAttribute("type", "text");
+                        //     elememt.style.zIndex = 2;
+                        // }
+                        // else if(item.type === "textfield"){
+                        //     var elememt = document.createElement("INPUT");
+                        //     elememt.setAttribute("type", "text");
+                        //     elememt.style.zIndex = 2;
+                        // }
+                        // else if(item.type === "button"){
+                        //     var elememt = document.createElement("button");
+                        //     elememt.innerHTML = "Do Something";
+                        //     elememt.style.zIndex = 2;
+                        // }
+                        // else{
+                        //     var elememt = document.createElement("div");
+                        //     elememt.style.zIndex = 1; 
+                        // }
+                        // const position = "absolute";
+                        // const left = item.x_position+'px';
+                        // const top = item.y_position+'px';
+                        // const backgroundColor=item.background;
+                        // const borderColor = item.border_color;
+                        // const borderRadius = item.border_radius;
+                        // const borderWidth = item.border_thickness;
+                        // const fontSize = item.font+'px';
+                        // const width = item.width+'px';
+                        // const height = item.height+'px';
+                        // var body = document.getElementById("main_page");
+                        // body.appendChild(elememt);
+                        
+                        <WireframeComponent item = {item}/>
+                         
+                        // left = {left}
+                        // top = {top}
+                        // backgroundColor ={backgroundColor}
+                        // borderColor = {borderColor}
+                        // borderRadius = {borderRadius}
+                        // borderWidth = {borderWidth}
+                        // fontSize = {fontSize}
+                        // width = {width}
+                        // height = {height}
+                        // type = {type} />
+                       
+
+                    ))}
+
+
+                </div>
 
 
 
