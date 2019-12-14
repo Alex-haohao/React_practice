@@ -20,6 +20,7 @@ class WireframeScreen extends Component {
         width : 0,
         height : 0,
         id:0,
+        text:"",
         
         display_backgroundcolor_ColorPicker: false,
         backgroundcolor: "#BCAFAB",
@@ -42,6 +43,7 @@ class WireframeScreen extends Component {
           item.font = this.state.fontSize;
           item.width = this.state.width;
           item.height = this.state.height;
+          item.text = this.state.text;
           this.forceUpdate();
 
       }
@@ -66,6 +68,17 @@ class WireframeScreen extends Component {
             [target.id]: target.value,
           }));
         this.state.fontSize = target.value
+       }
+
+       handletext = (e) =>{
+        e.preventDefault()
+        const { target } = e;
+
+        this.setState(state => ({
+            ...state,
+            [target.id]: target.value,
+          }));
+        this.state.text = target.value
        }
 
        handleborder_thickness = (e) =>{
@@ -93,6 +106,8 @@ class WireframeScreen extends Component {
         this.state.id = event.target.id
         this.state.backgroundcolor = event.target.style.backgroundColor
         this.state.bordercolor = event.target.style.borderColor
+        this.state.text = event.target.value
+        
         console.log("this target   "+event.target.id)
         console.log("x_position   "+event.target.style.borderRadius)
         this.forceUpdate();
@@ -117,6 +132,7 @@ class WireframeScreen extends Component {
         font : 12,
         width : 70,
         height : 70,
+        text:"write",
         id : max
             }
 
@@ -140,6 +156,7 @@ class WireframeScreen extends Component {
         font : 12,
         width : 150,
         height : 40,
+        text:"write",
         id:max
           }
 
@@ -166,6 +183,7 @@ class WireframeScreen extends Component {
         font : 12,
         width : 100,
         height : 50,
+        text:"write",
         id:max
             }
 
@@ -189,6 +207,7 @@ class WireframeScreen extends Component {
         font : 12,
         width : 400,
         height : 400,
+        text:"",
         id:max
            }
 
@@ -374,6 +393,10 @@ class WireframeScreen extends Component {
 
                 <p>Border Radius: 
                 <input type="text" className="browser-default" value={this.state.borderRadius} onChange={this.handleborder_radius} id="Border_Radius"></input> 
+                </p>
+
+                <p>inner text: 
+                <input type="text" value={this.state.text} onChange={this.handletext} ></input> 
                 </p>
             
 

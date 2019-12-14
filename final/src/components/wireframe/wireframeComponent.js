@@ -39,7 +39,9 @@ class wireframeComponent extends React.Component {
                 height : item.height,
                 zIndex:2    }}
                 id = {item.id}
+                value ={item.text}
                 onClick = {this.props.handleClick.bind(this)}>
+                    
                 </input>
             );
         }
@@ -58,6 +60,7 @@ class wireframeComponent extends React.Component {
                 height : item.height,
                 zIndex:2    }}
                 id = {item.id}
+                value ={item.text}
                 onClick = {this.props.handleClick.bind(this)}>
                 </input>
             );
@@ -77,7 +80,10 @@ class wireframeComponent extends React.Component {
                 height : item.height,
                 zIndex:2    }}
                 id = {item.id}
+                value ={item.text}
+
                 onClick = {this.props.handleClick.bind(this)}>
+                    {item.text}
                 </button>
 
             )
