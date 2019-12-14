@@ -9,7 +9,9 @@ import { SketchPicker } from 'react-color';
 import WireframeComponent from './wireframeComponent.js'
 
 class WireframeScreen extends Component {
+    
     state = {
+        
         display_backgroundcolor_ColorPicker: false,
         backgroundcolor: {
             r: '241',
@@ -24,84 +26,148 @@ class WireframeScreen extends Component {
             b: '19',
             a: '1',
           },
+          items : null,
       };
+
+      handleClick = (event) => {
+        // accessible
+        //event.target.style
+        console.log("hahahaha")
+
+        console.log("style"+event.target.style.position)
+        //event.target.classList //to change style via css
+     }
 
 
       create_textfield= () => {
-        var textfield = document.createElement("INPUT");
-        textfield.setAttribute("type", "text");
-        textfield.innerHTML = "HAHA";
-        textfield.style.position = "absolute";
-        textfield.style.left = 250+'px';
-        textfield.style.top = 250+'px';
-        textfield.style.backgroundColor="white";
-        textfield.style.borderColor = "#0000FF";
-        textfield.style.borderRadius = "1";
-        textfield.style.borderWidth = "thick";
-        textfield.style.fontSize = 16+'px';
-        textfield.style.width = 150+'px';
-        textfield.style.height = 40+'px';
-        textfield.style.zIndex = 2;
-        var body = document.getElementById("main_page");
-        body.appendChild(textfield);
+       
+        const item = {position : "absolute",
+        x_position : 100,
+        y_position :400,
+        background:"yellow",
+        borderColor : "pink",
+        borderRadius : 2,
+        type: "textfield",
+        borderWidth : 3,
+        fontSize : 12,
+        width : 70,
+        height : 70,
+            }
+
+        this.props.wireframe.items.push(item);
+        console.log("hahahaha"+this.props.wireframe.items)
+        this.forceUpdate();
       }
 
       create_label= () => {
-        var label = document.createElement("INPUT");
-        label.setAttribute("type", "text");
-        label.innerHTML = "HAHA";
-        label.style.position = "absolute";
-        label.style.left = 220+'px';
-        label.style.top = 230+'px';
-        label.style.border = "none"
-        label.style.borderColor="transparent";
-        label.style.backgroundColor="white";
-        // label.style.borderColor = "#0000FF";
-        // label.style.borderRadius = "1";
-        // label.style.borderWidth = "thick";
-        label.style.fontSize = 13+'px';
-        label.style.width = 150+'px';
-        label.style.height = 40+'px';
-        label.style.zIndex = 2;
-        var body = document.getElementById("main_page");
-        body.appendChild(label);
+        // var label = document.createElement("INPUT");
+        // label.setAttribute("type", "text");
+        // label.innerHTML = "HAHA";
+        // label.style.position = "absolute";
+        // label.style.left = 220+'px';
+        // label.style.top = 230+'px';
+        // label.style.border = "none"
+        // label.style.borderColor="transparent";
+        // label.style.backgroundColor="white";
+        // // label.style.borderColor = "#0000FF";
+        // // label.style.borderRadius = "1";
+        // // label.style.borderWidth = "thick";
+        // label.style.fontSize = 13+'px';
+        // label.style.width = 150+'px';
+        // label.style.height = 40+'px';
+        // label.style.zIndex = 2;
+        // var body = document.getElementById("main_page");
+        // body.appendChild(label);
+
+        const item = {position : "absolute",
+        x_position : 220,
+        y_position :230,
+        background:"white",
+        borderColor : "none",
+        borderRadius : 0,
+        type: "label",
+        borderWidth : 0,
+        fontSize : 12,
+        width : 150,
+        height : 40,
+          }
+
+        this.props.wireframe.items.push(item);
+        console.log("hahahaha"+this.props.wireframe.items)
+        this.forceUpdate();
       }
 
 
        create_button = () => {
-        var button = document.createElement("button");
-        button.innerHTML = "Do Something";
-        button.style.position = "absolute";
-        button.style.left = 200+'px';
-        button.style.top = 200+'px';
-        button.style.backgroundColor="white";
-        button.style.borderColor = "#0000FF";
-        button.style.borderRadius = "1";
-        button.style.borderWidth = "thick";
-        button.style.fontSize = 12+'px';
-        button.style.width = 100+'px';
-        button.style.height = 50+'px';
-        button.style.zIndex = 2;
-        var body = document.getElementById("main_page");
-        body.appendChild(button);
+        // var button = document.createElement("button");
+        // button.innerHTML = "Do Something";
+        // button.style.position = "absolute";
+        // button.style.left = 200+'px';
+        // button.style.top = 200+'px';
+        // button.style.backgroundColor="white";
+        // button.style.borderColor = "#0000FF";
+        // button.style.borderRadius = "1";
+        // button.style.borderWidth = "thick";
+        // button.style.fontSize = 12+'px';
+        // button.style.width = 100+'px';
+        // button.style.height = 50+'px';
+        // button.style.zIndex = 2;
+        // var body = document.getElementById("main_page");
+        // body.appendChild(button);
+
+        const item = {position : "absolute",
+        x_position : 200,
+        y_position :200,
+        background:"0000FF",
+        borderColor : "none",
+        borderRadius : 1,
+        type: "button",
+        borderWidth : "thick",
+        fontSize : 12,
+        width : 100,
+        height : 50,
+            }
+
+        this.props.wireframe.items.push(item);
+        console.log("hahahaha"+this.props.wireframe.items)
+        this.forceUpdate();
       }
 
       create_container = () => {
-        var container = document.createElement("div");
-        container.style.position = "absolute";
-        container.style.left = 200+'px';
-        container.style.top = 200+'px';
-        container.style.backgroundColor="white";
-        container.style.borderColor = "#0000FF";
-        container.style.borderRadius = "1";
-        container.style.borderWidth = "thick";
-        container.style.fontSize = 12+'px';
-        container.style.width = 200+'px';
-        container.style.height = 200+'px';
-        container.style.zIndex = 1;
+        // var container = document.createElement("div");
+        // container.style.position = "absolute";
+        // container.style.left = 200+'px';
+        // container.style.top = 200+'px';
+        // container.style.backgroundColor="white";
+        // container.style.borderColor = "#0000FF";
+        // container.style.borderRadius = "1";
+        // container.style.borderWidth = "thick";
+        // container.style.fontSize = 12+'px';
+        // container.style.width = 200+'px';
+        // container.style.height = 200+'px';
+        // container.style.zIndex = 1;
 
-        var body = document.getElementById("main_page");
-        body.appendChild(container);
+        // var body = document.getElementById("main_page");
+        // body.appendChild(container);
+
+        const item = {position : "absolute",
+        x_position : 300,
+        y_position :400,
+        background:"white",
+        borderColor : "#ffffff",
+        borderRadius : 1,
+        type: "container",
+        borderWidth : "thick",
+        fontSize : 12,
+        width : 400,
+        height : 400,
+           }
+
+        this.props.wireframe.items.push(item);
+        console.log("hahahaha"+this.props.wireframe.items)
+        this.forceUpdate();
+
+        
       }
 
 
@@ -144,13 +210,15 @@ class WireframeScreen extends Component {
             bottom: '0px',
             left: '0px',
           }
+          
 
          const wireframe = this.props.wireframe; 
          if(!wireframe){
              return<React.Fragment/>
          }
 
-        const items = wireframe.items;
+        const items = this.props.wireframe.items;
+        this.state.items = items;
         return (
             
             <div className="todo_home">
@@ -226,7 +294,7 @@ class WireframeScreen extends Component {
                         // var body = document.getElementById("main_page");
                         // body.appendChild(elememt);
                         
-                        <WireframeComponent item = {item}/>
+                        <WireframeComponent item = {item} handleClick={this.handleClick}/>
                          
                         // left = {left}
                         // top = {top}

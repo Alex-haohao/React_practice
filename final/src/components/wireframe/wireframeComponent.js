@@ -17,7 +17,11 @@ class wireframeComponent extends React.Component {
             fontSize : item.font,
             width : item.width,
             height : item.height,
-            zIndex:1    }}>
+            zIndex:1   }}
+            
+            onClick = {this.props.handleClick.bind(this)}
+            >
+
             </div>
         );
            
@@ -34,7 +38,8 @@ class wireframeComponent extends React.Component {
                 fontSize : item.font,
                 width : item.width,
                 height : item.height,
-                zIndex:2    }}>
+                zIndex:2    }}
+                onClick = {this.props.handleClick.bind(this)}>
                 </input>
             );
         }
@@ -51,7 +56,8 @@ class wireframeComponent extends React.Component {
                 fontSize : item.font,
                 width : item.width,
                 height : item.height,
-                zIndex:2    }}>
+                zIndex:2    }}
+                onClick = {this.props.handleClick.bind(this)}>
                 </input>
             );
 
@@ -68,7 +74,8 @@ class wireframeComponent extends React.Component {
                 fontSize : item.font,
                 width : item.width,
                 height : item.height,
-                zIndex:2    }}>
+                zIndex:2    }}
+                onClick = {this.props.handleClick.bind(this)}>
                 </button>
 
             )
@@ -85,7 +92,8 @@ class wireframeComponent extends React.Component {
                 fontSize : item.font,
                 width : item.width,
                 height : item.height,
-                zIndex:1    }}>
+                zIndex:1    }}
+                onClick = {this.props.handleClick.bind(this)}>
                 </div>
             )
         }
