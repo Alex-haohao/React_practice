@@ -32,6 +32,8 @@ body {
 }
 
 .middle_container{
+  overflow: scroll;
+
   position: absolute;
   left: 200px;
   width: 60%;
@@ -46,6 +48,15 @@ body {
 
 #property_btn{
   width: 150px;
+}
+
+#Border_Radius{
+  width: 70px;
+
+}
+#border_thickness{
+  width: 70px;
+
 }
 
 #font_input{
@@ -71,6 +82,8 @@ label {
   padding-left: 25%;
   margin-bottom: 50px;
   }
+
+  
 
 
 .button_container{
