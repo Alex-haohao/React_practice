@@ -44,12 +44,7 @@ class WireframeScreen extends Component {
         event.preventDefault()
 
 
-        const itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
-
-        if(itemarray.length >0){const item = itemarray[0]
-            item.x_position = this.state.x_position;
-            item.y_position = this.state.y_position;}
-
+        
         this.state.x_position = 0;
         this.state.y_position = 0
         this.state.borderRadius = 0
@@ -131,26 +126,30 @@ class WireframeScreen extends Component {
         this.state.borderWidth = target.value
        }
 
-      handleClick = (x,y,event) => {
+      handleClick = (x,y,w,h,event) => {
         event.stopPropagation()
         event.preventDefault()
 
-        
-       
-        
-        
-      
-        this.state.x_position = parseInt(event.target.style.left, 10) +(parseInt(x,10)- this.state.x_temp)/10000;
-        this.state.y_position = parseInt(event.target.style.top, 10) +(parseInt(y,10)-this.state.y_temp)/10000;
-        console.log("x: "+event.target.style.left)
-         
+    
+        this.state.x_position = x;
+        this.state.y_position = y;
+        this.state.width = w
+        this.state.height = h
+        console.log("x: "+x)
+        const itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
+
+        if(itemarray.length >0){const item = itemarray[0]
+            item.x_position = this.state.x_position;
+            item.y_position = this.state.y_position;
+            item.width = this.state.width;
+            item.height = this.state.height}
+
 
 
         this.state.borderRadius = event.target.style.borderRadius
         this.state.borderWidth = event.target.style.borderWidth
         this.state.fontSize = event.target.style.fontSize
-        this.state.width = event.target.style.width
-        this.state.height = event.target.style.height
+        
         this.state.id = event.target.id
         this.state.backgroundcolor = event.target.style.backgroundColor
         this.state.bordercolor = event.target.style.borderColor

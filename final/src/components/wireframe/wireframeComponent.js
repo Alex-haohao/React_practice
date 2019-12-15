@@ -1,5 +1,8 @@
 import React from 'react';
 import Draggable, {DraggableCore} from 'react-draggable'; 
+import { Resizable, ResizableBox } from 'react-resizable';
+import { Rnd } from "react-rnd";
+
 
 class wireframeComponent extends React.Component {
 
@@ -10,7 +13,11 @@ class wireframeComponent extends React.Component {
         },
         controlledPosition: {
           x: this.props.item.x_position, y: this.props.item.y_position
-        }
+        },
+       width: this.props.item.width,
+        height: this.props.item.height,
+        x:this.props.item.x_position,
+        y:this.props.item.y_position
       };
 
       handleDrag = (e, ui) => {
@@ -21,6 +28,10 @@ class wireframeComponent extends React.Component {
             y: y + ui.deltaY,
           }
         });
+      };
+
+      onResize = (event, {element, size, handle}) => {
+        this.setState({width: size.width, height: size.height});
       };
 
       adjustXPos = (e) => {
@@ -48,47 +59,93 @@ class wireframeComponent extends React.Component {
 
         if(item.type === "container"){
         return (
-            <Draggable handle="div" {...dragHandlers} onDrag={this.handleDrag} >
-            <div  style={{position : "absolute",
-            left : item.x_position,
-            top :item.y_position,
+        
+
+            <Rnd
+                style={{position : "absolute",
+                backgroundColor:item.background,
+                borderColor : item.border_color,
+                borderRadius : item.border_radius,
+                borderWidth : item.border_thickness,
+                zIndex:1    }}
+        size={{ width: this.state.width, height: this.state.height }}
+        position={{ x: this.state.x, y: this.state.y }}
+        onDragStop={(e, d) => {
+          this.setState({ x: d.x, y: d.y });
+        }}
+        onResizeStop={(e, direction, ref, delta, position) => {
+          this.setState({
+            width: ref.style.width,
+            height: ref.style.height,
+            ...position
+          });
+        }}
+      >
+        
+        <div  style={{position : "absolute",
             backgroundColor:item.background,
             borderColor : item.border_color,
             borderRadius : item.border_radius,
             borderWidth : item.border_thickness,
             fontSize : item.font,
-            width : item.width,
-            height : item.height,
+            width : this.state.width,
+                height : this.state.height,
             zIndex:1   }}
             id = {item.id}
-            onClick = {this.props.handleClick.bind(this,deltaPosition.x.toFixed(0),deltaPosition.y.toFixed(0))}>
+            onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
             </div>
-            </Draggable>
+      </Rnd>
+
+
+
+
         );
            
         }
         else if(item.type === "label"){
             return (
                 
-                <Draggable handle="input" {...dragHandlers} onDrag={this.handleDrag} >
-                <input  type="text" className="browser-default"  style={{position : "absolute",
-                left : item.x_position,
-                top :item.y_position,
+                <Rnd
+                style={{position : "absolute",
+                backgroundColor:item.background,
+                borderColor : item.border_color,
+                borderRadius : item.border_radius,
+                borderWidth : item.border_thickness,
+                zIndex:2    }}
+        size={{ width: this.state.width, height: this.state.height }}
+        position={{ x: this.state.x, y: this.state.y }}
+        onDragStop={(e, d) => {
+          this.setState({ x: d.x, y: d.y });
+        }}
+        onResizeStop={(e, direction, ref, delta, position) => {
+          this.setState({
+            width: ref.style.width,
+            height: ref.style.height,
+            ...position
+          });
+        }}
+      >
+        
+        <input  type="text" className="browser-default"  style={{position : "absolute",
+                
                 backgroundColor:item.background,
                 borderColor : item.border_color,
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 fontSize : item.font,
-                width : item.width,
-                height : item.height,
+                width : this.state.width,
+                height : this.state.height,
                 zIndex:2    }}
                 id = {item.id}
                 value ={item.text}
-                onClick = {this.props.handleClick.bind(this,deltaPosition.x.toFixed(0),deltaPosition.y.toFixed(0))}>
+                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
                 </input >
-                
-                
-              </Draggable>
+      </Rnd>
+
+
+
+
+            
 
                 
             );
@@ -96,29 +153,73 @@ class wireframeComponent extends React.Component {
         else if(item.type === "textfield"){
 
             return (
-                <Draggable handle="input" {...dragHandlers} onDrag={this.handleDrag} >
-                <input  type="text" className="browser-default"  style={{position : "absolute",
-                left : item.x_position,
-                top :item.y_position,
+
+            
+
+                <Rnd
+                style={{position : "absolute",
+                backgroundColor:item.background,
+                borderColor : item.border_color,
+                borderRadius : item.border_radius,
+                borderWidth : item.border_thickness,
+                zIndex:2    }}
+        size={{ width: this.state.width, height: this.state.height }}
+        position={{ x: this.state.x, y: this.state.y }}
+        onDragStop={(e, d) => {
+          this.setState({ x: d.x, y: d.y });
+        }}
+        onResizeStop={(e, direction, ref, delta, position) => {
+          this.setState({
+            width: ref.style.width,
+            height: ref.style.height,
+            ...position
+          });
+        }}
+      >
+        
+        <input  type="text" className="browser-default"  style={{position : "absolute",
                 backgroundColor:item.background,
                 borderColor : item.border_color,
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 fontSize : item.font,
-                width : item.width,
-                height : item.height,
+                width : this.state.width,
+                height : this.state.height,
                 zIndex:2    }}
                 id = {item.id}
                 value ={item.text}
-                onClick = {this.props.handleClick.bind(this,deltaPosition.x.toFixed(0),deltaPosition.y.toFixed(0))}>
-                </input></Draggable>
+                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
+                </input>
+      </Rnd>
             );
 
         }
         else if(item.type === "button"){
             return (
-                <Draggable handle="button" {...dragHandlers} onDrag={this.handleDrag} >
-            <button  type="button" className="browser-default"  style={{position : "absolute",
+            
+
+                  <Rnd
+                style={{position : "absolute",
+                backgroundColor:item.background,
+                borderColor : item.border_color,
+                borderRadius : item.border_radius,
+                borderWidth : item.border_thickness,
+                zIndex:2    }}
+        size={{ width: this.state.width, height: this.state.height }}
+        position={{ x: this.state.x, y: this.state.y }}
+        onDragStop={(e, d) => {
+          this.setState({ x: d.x, y: d.y });
+        }}
+        onResizeStop={(e, direction, ref, delta, position) => {
+          this.setState({
+            width: ref.style.width,
+            height: ref.style.height,
+            ...position
+          });
+        }}
+      >
+        
+        <button  type="button" className="browser-default"  style={{position : "absolute",
                 left : item.x_position,
                 top :item.y_position,
                 backgroundColor:item.background,
@@ -126,35 +227,58 @@ class wireframeComponent extends React.Component {
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 fontSize : item.font,
-                width : item.width,
-                height : item.height,
+                width : this.state.width,
+                height : this.state.height,
                 zIndex:2    }}
                 id = {item.id}
                 value ={item.text}
 
-                onClick = {this.props.handleClick.bind(this,deltaPosition.x.toFixed(0),deltaPosition.y.toFixed(0))}>
+                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
+                
                     {item.text}
                 </button>
-</Draggable>
+      </Rnd>
+
+
             )
         }
         else{
             return (
-                <Draggable handle="input" {...dragHandlers} onDrag={this.handleDrag} >
-                <div style={{position : "absolute",
-                left : item.x_position,
-                top :item.y_position,
+                <Rnd
+                style={{position : "absolute",
                 backgroundColor:item.background,
                 borderColor : item.border_color,
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
-                fontSize : item.font,
-                width : item.width,
-                height : item.height,
                 zIndex:1    }}
-                id = {item.id}
-                onClick = {this.props.handleClick.bind(this,deltaPosition.x.toFixed(0),deltaPosition.y.toFixed(0))}>
-                </div></Draggable>
+        size={{ width: this.state.width, height: this.state.height }}
+        position={{ x: this.state.x, y: this.state.y }}
+        onDragStop={(e, d) => {
+          this.setState({ x: d.x, y: d.y });
+        }}
+        onResizeStop={(e, direction, ref, delta, position) => {
+          this.setState({
+            width: ref.style.width,
+            height: ref.style.height,
+            ...position
+          });
+        }}
+      >
+        
+        <div  style={{position : "absolute",
+            backgroundColor:item.background,
+            borderColor : item.border_color,
+            borderRadius : item.border_radius,
+            borderWidth : item.border_thickness,
+            fontSize : item.font,
+            width : this.state.width,
+                height : this.state.height,
+            zIndex:1   }}
+            id = {item.id}
+            onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
+            </div>
+      </Rnd>
+
             )
         }
         
