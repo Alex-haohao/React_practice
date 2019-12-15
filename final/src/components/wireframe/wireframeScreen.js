@@ -45,7 +45,10 @@ class WireframeScreen extends Component {
         super(props);
         this.undo_key = this.undo_key.bind(this);
         this.redo_key = this.redo_key.bind(this);
-    
+        this.state = {
+            loading: 'initial',
+            data: ''
+          };
       }
       showMessage () {
         alert('SOME MESSAGE');
@@ -124,12 +127,34 @@ class WireframeScreen extends Component {
     
         }
       }
+
+      loadData() {
+        var promise = new Promise((resolve, reject) => { 
+          setTimeout(() => {
+            console.log('This happens 6th (after 3 seconds).');
+            resolve('This is my data.');
+          }, 1000);
+        });
+    
+        console.log('This happens 4th.');
+    
+        return promise;
+      }
     
       componentDidMount(){
+        
         document.addEventListener('keydown',this.redo_key);
     
         document.addEventListener('keydown',this.undo_key);
-    
+        this.setState({ loading: 'true' });
+    this.loadData()
+    .then((data) => {
+      console.log('This happens 7th.');
+      this.setState({
+        data: data,
+        loading: 'false'
+      });
+    });
     
       }
       componentWillUnmount(){
@@ -500,6 +525,8 @@ class WireframeScreen extends Component {
         this.props.wireframe.dimension_height = target.value
 
        }
+
+       
       
 
       handle_zoom_out= () => {
@@ -511,6 +538,18 @@ class WireframeScreen extends Component {
    
 
     render() {
+
+
+        if (this.state.loading === 'initial') {
+            console.log('This happens 2nd - after the class is constructed. You will not see this element because React is still computing changes to the DOM.');
+            return <h2>Intializing...</h2>;
+          }
+      
+      
+          if (this.state.loading === 'true') {
+            console.log('This happens 5th - when waiting for data.');
+            return <h2>Loading...</h2>;
+          }
 
         let Draggable = require('react-draggable');
         let DraggableCore = Draggable.DraggableCore;
@@ -533,10 +572,17 @@ class WireframeScreen extends Component {
              return<React.Fragment/>
          }
 
+         const userid = this.props.auth.uid;
+         const users = this.props.users
+         const user = users.filter(each => (each.id == userid ))
+          console.log("is admin: "+user[0].isadmin)
+
+          if(user[0].isadmin != true){
          const { auth } = this.props;
             if (auth.uid != wireframe.userid) {
             return <Redirect to="/" />;
             }
+        }
 
         const items = this.props.wireframe.items;
         const name = this.props.wireframe.name
@@ -596,8 +642,8 @@ class WireframeScreen extends Component {
                 </div>
 
                 <div className="middle_container" id = "main_page" onClick={this.handleUnselect}>
-                    <div className="middle_container_child" id="middle_container_child_id" style={{width : this.state.diimension_width+"px",
-            height : this.state.diimension_height+"px"}} onMouseOver={this.handlecandelete}>
+                    <div className="middle_container_child" id="middle_container_child_id" style={{width : this.props.wireframe.dimension_width+"px",
+            height : this.props.wireframe.dimension_height+"px"}} onMouseOver={this.handlecandelete}>
                     {items.map((item) => (
                         
  
@@ -661,7 +707,7 @@ class WireframeScreen extends Component {
 
 
                 <p>save dimension:
-                <button className="btn"  onClick={this.handle_dimension_click} > save</button> 
+                <button className="browser-default"  onClick={this.handle_dimension_click} > save</button> 
                 </p>
 
 
@@ -676,6 +722,8 @@ class WireframeScreen extends Component {
 }
 
 
+
+
 const mapStateToProps = (state, ownProps) => {
     const { id } = ownProps.match.params;
     const { wireframes } = state.firestore.data;
@@ -688,6 +736,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
       wireframe,
       auth: state.firebase.auth,
+      users: state.firestore.ordered.users,
     };
   };
   
@@ -695,6 +744,6 @@ const mapStateToProps = (state, ownProps) => {
   export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      { collection: 'wireframes' },
+      { collection: 'wireframes' },{collection: 'users'}
     ]),
   )(WireframeScreen);

@@ -20,14 +20,18 @@ class HomeScreen extends Component {
             fireStore.collection('wireframes').add({
                     userid: this.props.auth.uid,
                     name: "Unknow",
+                    dimension_width:1000,
+                    dimension_height:1000,
                     items: [],
                     createdAt: fireStore.FieldValue.serverTimestamp(),
                 }).then(() => {
+                    window.location.reload();
                     console.log("this belong to "+this.props.auth.uid)
                     console.log("add new data");
                 }).catch((err) => {
                     console.log(err);
                 });
+                
                 
     }
 

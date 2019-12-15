@@ -6,6 +6,7 @@ import TodoListCard from './TodoListCard';
 import { getFirestore } from 'redux-firestore';
 import ReactDOM from "react-dom";
 import { firestoreConnect } from 'react-redux-firebase';
+import { NavLink, Redirect } from 'react-router-dom';
 
 class TodoListLinks extends React.Component {
 
@@ -28,6 +29,11 @@ class TodoListLinks extends React.Component {
         e.stopPropagation()
         e.preventDefault()
         const { target } = e;
+        if(!target.id){
+            window.location.reload();
+
+            return <Redirect to="/" />;
+        }
 
         const fireStore = getFirestore();
             fireStore.collection('wireframes').doc(target.id).delete().then(() => {
@@ -37,7 +43,64 @@ class TodoListLinks extends React.Component {
                 });
     }
 
+    constructor(props) {
+        super();
+    
+        console.log('This happens 1st.');
+    
+        this.state = {
+          loading: 'initial',
+          data: ''
+        };
+    
+      }
+      loadData() {
+        var promise = new Promise((resolve, reject) => { 
+          setTimeout(() => {
+            console.log('This happens 6th (after 3 seconds).');
+            resolve('This is my data.');
+          }, 1000);
+        });
+    
+        console.log('This happens 4th.');
+    
+        return promise;
+      }
+      componentDidMount() {
+
+        console.log('This happens 3rd.');
+    
+        this.setState({ loading: 'true' });
+        this.loadData()
+        .then((data) => {
+          console.log('This happens 7th.');
+          this.setState({
+            data: data,
+            loading: 'false'
+          });
+        });
+      }
+
+
+
+
+
+
+
     render() {
+
+        if (this.state.loading === 'initial') {
+            console.log('This happens 2nd - after the class is constructed. You will not see this element because React is still computing changes to the DOM.');
+            return <h2>Intializing...</h2>;
+          }
+      
+      
+          if (this.state.loading === 'true') {
+            console.log('This happens 5th - when waiting for data.');
+            return <h2>Loading...</h2>;
+          }
+
+
         const wireframes = this.props.wireframes;
         const fireStore = getFirestore();
         const userid = this.props.auth.uid;
@@ -47,13 +110,40 @@ class TodoListLinks extends React.Component {
 
         
         // const isadmin = docdata.isadmin
-        if(this.props.users){
+      
         const users = this.props.users
         const user = users.filter(each => (each.id == userid ))
-         console.log("is admin: "+user[0].id)
-        }
+         console.log("is admin: "+user[0].isadmin)
 
-        
+         if(user[0].isadmin == true){
+            return (
+                <div className="todo-lists section" >
+                    {wireframes && wireframes
+                    .map(wireframe => (
+                        <Link to={'/wireframes/' + wireframe.id} key={wireframe.id}  onClick={() => {
+                            const fireStore = getFirestore();
+                      if(!wireframe.id){
+                        window.location.reload();
+                        
+             }      
+                fireStore.collection('wireframes').doc(wireframe.id).update({
+                    createdAt: fireStore.FieldValue.serverTimestamp(),
+    
+                }).then(() => {
+                        console.log("update the data");
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                          }}  >
+                              
+                            <TodoListCard wireframe={wireframe} id ={wireframe.id}
+                            handledeleteList={this.handledeleteList.bind(this)}/>
+                        </Link>
+                    ))}
+                </div>
+            );
+         }
+         else{
       
         
         return (
@@ -63,7 +153,8 @@ class TodoListLinks extends React.Component {
                     <Link to={'/wireframes/' + wireframe.id} key={wireframe.id}  onClick={() => {
                         const fireStore = getFirestore();
                   if(!wireframe.id){
-             return<React.Fragment/>
+                    window.location.reload();
+                    
          }      
             fireStore.collection('wireframes').doc(wireframe.id).update({
                 createdAt: fireStore.FieldValue.serverTimestamp(),
@@ -81,7 +172,7 @@ class TodoListLinks extends React.Component {
                 ))}
             </div>
         );
-
+                    }
 
 
     }
