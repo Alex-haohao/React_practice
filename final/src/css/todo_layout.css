@@ -22,28 +22,40 @@ body {
 
 .todo_home {
   display: flex;
-  position: relative;
+  position: absolute;
 
   width: 100%;
-  height: 100%;
-  top: 50%;
+  height: 80%;
+  top: 10%;
   background-color: wheat;
  
 }
 
 .middle_container{
   overflow: scroll;
-
-  position: absolute;
-  left: 200px;
-  width: 58.5%;
+  position: relative;
+  left: 20%;
+  width: 60%;
   height: 100%;
   background-color: rgb(136, 183, 230);
 }
 
+.middle_container_child{
+  overflow: scroll;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: scale(1);
+  background-color: rgb(213, 215, 216);
+}
+
+
 .left_container{
+  position: absolute;
+
   float: left;
-  width: 33.33%; /* three boxes (use 25% for four, and 50% for two, etc) */
+  height: 100%;
+  width: 20%; /* three boxes (use 25% for four, and 50% for two, etc) */
 }
 
 #property_btn{
@@ -69,7 +81,7 @@ body {
   padding-left: 15px;
 
   right: 0;
-  width: 200px;
+  width: 20%;
   height: 100%;
   background-color: lightslategray;
   
@@ -87,7 +99,7 @@ label {
 
 
 .button_container{
-  width: 200px;
+  width: 100%;
   height: 40px;
   background-color: lightpink;
 }
@@ -111,8 +123,8 @@ label {
 .wire_container{
   padding-top: 50px;
   padding-left: 35px;
-  width: 200px;
-  height: 500px;
+  width: 100%;
+  height: 93.5%;
   background-color:lightgray ;
 }
 

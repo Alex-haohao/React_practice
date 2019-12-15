@@ -24,6 +24,7 @@ class WireframeScreen extends Component {
         id:0,
         text:"",
         name:"",
+        zoom:1,
         
         display_backgroundcolor_ColorPicker: false,
         backgroundcolor: "#BCAFAB",
@@ -420,6 +421,22 @@ class WireframeScreen extends Component {
         this.setState({ display_border_ColorPicker: false })
       };
 
+      handle_zoom_in= () => {
+
+        var zoom = document.getElementById("middle_container_child_id");
+        zoom.style.transform = "scale("+this.state.zoom*2+")";
+        this.state.zoom=this.state.zoom*2
+
+
+        this.forceUpdate();
+      }
+
+      handle_zoom_out= () => {
+        var zoom = document.getElementById("middle_container_child_id");
+        zoom.style.transform = "scale("+this.state.zoom/2+")";
+        this.state.zoom=this.state.zoom/2
+        this.forceUpdate();
+      }
    
 
     render() {
@@ -461,9 +478,9 @@ class WireframeScreen extends Component {
                 <div className="left_container">
                 <div className="button_container">
 
-                <button type="button" className="material-icons " style={{position : "relative ",width: "10px"}}
+                <button type="button" className="material-icons " onClick ={this.handle_zoom_in}
                     >zoom_in</button>
-                    <button type="button" className="material-icons "style={{position : "relative",width: "10px"}}
+                    <button type="button" className="material-icons " onClick={this.handle_zoom_out}
                     >zoom_out</button>
 
 
@@ -499,26 +516,14 @@ class WireframeScreen extends Component {
                 </div>
 
                 <div className="middle_container" id = "main_page" onClick={this.handleUnselect}>
+                    <div className="middle_container_child" id="middle_container_child_id">
                     {items.map((item) => (
                         
-                        
-                        <WireframeComponent item = {item} handleClick={this.handleClick}
-                    />
-                         
-                        // left = {left}
-                        // top = {top}
-                        // backgroundColor ={backgroundColor}
-                        // borderColor = {borderColor}
-                        // borderRadius = {borderRadius}
-                        // borderWidth = {borderWidth}
-                        // fontSize = {fontSize}
-                        // width = {width}
-                        // height = {height}
-                        // type = {type} />
-                       
+ 
+                        <WireframeComponent item = {item} handleClick={this.handleClick}/>
 
                     ))}
-
+</div>
 
                 </div>
 
