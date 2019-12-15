@@ -4,6 +4,8 @@
             "userid":"TvPtQuk1RtYnuNPpRQYlxoa5B8L2",
             "key": 0,
             "name": "First wireframe",
+            "dimension_width":1000,
+            "dimension_height":1000,
             "items": [
                 {
                     "x_position": 200,
@@ -18,6 +20,7 @@
                     "border_radius":2,
                     "id":1,
                     "text":""
+
                 },
                 {
                     "x_position": 400,
@@ -32,6 +35,7 @@
                     "border_radius":1,
                     "id":2,
                     "text":"haha"
+
                     
                 },
                 {
@@ -47,6 +51,7 @@
                     "border_radius":1,
                     "id":3,
                     "text":"lala"
+      
                 }
             ]
         },
@@ -54,6 +59,8 @@
             "userid":"dasdsadsad",
             "key": 1,
             "name": "second wireframe",
+            "dimension_width":1000,
+            "dimension_height":1000,
             "items": [
                 {
                     "x_position": 200,
@@ -68,6 +75,7 @@
                     "border_radius":3,
                     "id":1,
                     "text":"dada"
+        
                 },
                 {
                     "x_position": 200,
@@ -82,6 +90,7 @@
                     "border_radius":5,
                     "id":2,
                     "text":"gaga"
+              
                 },
                 {
                     "x_position": 50,
@@ -96,6 +105,7 @@
                     "border_radius":4,
                     "id":3,
                     "text":"zaza"
+                    
                 }
             ]
         }

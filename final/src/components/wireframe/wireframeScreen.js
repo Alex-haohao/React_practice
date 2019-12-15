@@ -25,6 +25,10 @@ class WireframeScreen extends Component {
         text:"",
         name:"",
         zoom:1,
+        delete : 0,
+        diimension_width:0,
+        diimension_height:0,
+
         
         display_backgroundcolor_ColorPicker: false,
         backgroundcolor: "#BCAFAB",
@@ -48,8 +52,9 @@ class WireframeScreen extends Component {
       }
     
       undo_key(e){
-        e.preventDefault() 
         if(e.keyCode===68 && e.ctrlKey) {
+            e.preventDefault() 
+
             console.log("duplicate")
             var itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
             var item = itemarray[0]
@@ -86,12 +91,34 @@ class WireframeScreen extends Component {
       }
     
       redo_key(e){
-        e.preventDefault() 
-        if(e.keyCode===8 ) {
+        if(e.keyCode===8 && this.state.delete ===1) {
+          e.preventDefault() 
+
           console.log("delete")
 
-          var itemarray = this.props.wireframe.items.filter(item => (item.id != this.state.id))
-          this.props.wireframe.items = itemarray;
+        // var itemarray = this.props.wireframe.items.filter(item => (item.id != this.state.id))
+        
+            for(var i =0;i<this.props.wireframe.items.length;i++){
+                if(this.props.wireframe.items[i].id == this.state.id){
+                    this.props.wireframe.items.splice(i, 1); 
+                }
+            }
+
+          //this.props.wireframe.items = itemarray;
+          console.log(this.props.wireframe.items)
+
+          this.state.x_position = 0;
+          this.state.y_position = 0
+          this.state.borderRadius = 0
+          this.state.borderWidth = 0
+          this.state.fontSize = 0
+          this.state.width = 0
+          this.state.height = 0
+          this.state.id = -1
+          this.state.backgroundcolor = "#BCAFAB"
+          this.state.bordercolor = "#BCAFAB"
+          this.state.text = ""
+
           this.forceUpdate();
 
     
@@ -106,11 +133,24 @@ class WireframeScreen extends Component {
     
       }
       componentWillUnmount(){
-            document.removeEventListener('keydown',this.redo_key);
+        document.removeEventListener('keydown',this.redo_key);
     
         document.removeEventListener('keydown',this.undo_key);
     
       }
+
+
+      
+      handlecandelete = () => {
+          this.state.delete = 1
+          console.log(this.state.delete)
+      }
+
+      handlenotdelete = () => {
+        this.state.delete = 0
+        console.log(this.state.delete)
+
+    }
       
 
 
@@ -232,15 +272,7 @@ class WireframeScreen extends Component {
         this.state.y_position = parseInt(y,10);
         this.state.width = parseInt(w,10)
         this.state.height = parseInt(h,10)
-        console.log("x: "+w)
-        // const itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
-
-        // if(itemarray.length >0){const item = itemarray[0]
-        //     item.x_position = this.state.x_position;
-        //     item.y_position = this.state.y_position;
-        //     item.width = this.state.width;
-        //     item.height = this.state.height}
-
+     
 
 
         this.state.borderRadius = event.target.style.borderRadius
@@ -356,6 +388,8 @@ class WireframeScreen extends Component {
                 createdAt: fireStore.FieldValue.serverTimestamp(),
                 items: this.props.wireframe.items,
                 name: this.state.name,
+                dimension_height:this.state.diimension_height,
+                dimension_width:this.state.diimension_width
 
             }).then(() => {
                     console.log("update the data");
@@ -431,6 +465,43 @@ class WireframeScreen extends Component {
         this.forceUpdate();
       }
 
+      handle_dimension_click= () => {
+        if(this.state.diimension_width <=5000 && this.state.diimension_width>= 1
+            && this.state.diimension_height >= 1 && this.state.diimension_height<= 5000){
+        var zoom = document.getElementById("middle_container_child_id");
+        zoom.style.width = this.state.diimension_width +"px";
+        zoom.style.height = this.state.diimension_height +"px";
+        this.forceUpdate();
+            }
+      }
+
+      handledimension_width = (e) =>{
+        e.preventDefault()
+        const { target } = e;
+
+        this.setState(state => ({
+            ...state,
+            [target.id]: target.value,
+          }));
+        this.state.diimension_width = target.value
+        this.props.wireframe.dimension_width = target.value
+
+       }
+
+       handledimension_height = (e) =>{
+        e.preventDefault()
+        const { target } = e;
+
+        this.setState(state => ({
+            ...state,
+            [target.id]: target.value,
+          }));
+        this.state.diimension_height = target.value
+        this.props.wireframe.dimension_height = target.value
+
+       }
+      
+
       handle_zoom_out= () => {
         var zoom = document.getElementById("middle_container_child_id");
         zoom.style.transform = "scale("+this.state.zoom/2+")";
@@ -469,6 +540,12 @@ class WireframeScreen extends Component {
 
         const items = this.props.wireframe.items;
         const name = this.props.wireframe.name
+        const dimension_width = this.props.wireframe.dimension_width
+        const dimension_height = this.props.wireframe.dimension_height
+            
+        console.log("lalalalala"+this.props.wireframe.dimension_width)
+        this.state.diimension_width = dimension_width
+        this.state.diimension_height = dimension_height
         this.state.items = items;
         this.state.name = name;
         return (
@@ -510,13 +587,17 @@ class WireframeScreen extends Component {
 
                 <input type="text" className="browser-default" value="input" id="Textfield_default" onClick={this.create_textfield}></input> 
                 <label for="Textfield_default">Textfield</label>
-               
+
+
+                
+
 
                 </div>
                 </div>
 
                 <div className="middle_container" id = "main_page" onClick={this.handleUnselect}>
-                    <div className="middle_container_child" id="middle_container_child_id">
+                    <div className="middle_container_child" id="middle_container_child_id" style={{width : this.state.diimension_width+"px",
+            height : this.state.diimension_height+"px"}} onMouseOver={this.handlecandelete}>
                     {items.map((item) => (
                         
  
@@ -531,7 +612,7 @@ class WireframeScreen extends Component {
 
 
 
-                <div className="property_container">
+                <div className="property_container" onMouseOver={this.handlenotdelete}>
                 <p>Properties</p>
                 <button type="button" className="waves-effect waves-light btn-small " onClick={this.handle_submit_property} id="property_btn">submit</button>
                 <p>Font size: 
@@ -566,10 +647,22 @@ class WireframeScreen extends Component {
                 <input type="text" value={this.state.text} onChange={this.handletext} ></input> 
                 </p>
 
-                <p>wireframe name:: 
+                <p>wireframe name:
                 <input type="text" value={this.state.name} onChange={this.handlename} ></input> 
                 </p>
-            
+
+                <p>diagram width:
+                <input type="text" className="browser-default" value={this.state.diimension_width} onChange ={this.handledimension_width}  ></input> 
+                </p>
+
+                <p>diagram height:
+                <input type="text" className="browser-default" value={this.state.diimension_height}  onChange ={this.handledimension_height}  ></input> 
+                </p>
+
+
+                <p>save dimension:
+                <button className="btn"  onClick={this.handle_dimension_click} > save</button> 
+                </p>
 
 
 

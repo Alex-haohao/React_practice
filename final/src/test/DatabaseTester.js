@@ -26,6 +26,8 @@ class DatabaseTester extends React.Component {
                     userid: todoListJson.userid,
                     name: todoListJson.name,
                     items: todoListJson.items,
+                    dimension_width:todoListJson.dimension_width,
+                    dimension_height:todoListJson.dimension_height
                 }).then(() => {
                     console.log("DATABASE RESET");
                 }).catch((err) => {
