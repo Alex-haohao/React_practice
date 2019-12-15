@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { getFirestore } from 'redux-firestore';
 import { SketchPicker } from 'react-color';
 import WireframeComponent from './wireframeComponent.js'
+import Draggable, {DraggableCore} from 'react-draggable'; 
+
 
 class WireframeScreen extends Component {
     
@@ -27,7 +29,44 @@ class WireframeScreen extends Component {
         display_border_ColorPicker: false,
         bordercolor: "#BCAFAB",
           items : null,
+          x_temp:0,
+          y_temp:0
       };
+
+      
+
+
+
+
+      handleUnselect = (event) => {
+
+        event.stopPropagation()
+        event.preventDefault()
+
+
+        const itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
+
+        if(itemarray.length >0){const item = itemarray[0]
+            item.x_position = this.state.x_position;
+            item.y_position = this.state.y_position;}
+
+        this.state.x_position = 0;
+        this.state.y_position = 0
+        this.state.borderRadius = 0
+        this.state.borderWidth = 0
+        this.state.fontSize = 0
+        this.state.width = 0
+        this.state.height = 0
+        this.state.id = -1
+        this.state.backgroundcolor = "#BCAFAB"
+        this.state.bordercolor = "#BCAFAB"
+        this.state.text = ""
+        
+        console.log("unselect")
+        this.forceUpdate();
+
+     }
+
 
       handle_submit_property =()=>{
           const itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
@@ -92,12 +131,21 @@ class WireframeScreen extends Component {
         this.state.borderWidth = target.value
        }
 
-      handleClick = (event) => {
+      handleClick = (x,y,event) => {
+        event.stopPropagation()
         event.preventDefault()
 
         
-        this.state.x_position = event.target.style.left;
-        this.state.y_position = event.target.style.top
+       
+        
+        
+      
+        this.state.x_position = parseInt(event.target.style.left, 10) +(parseInt(x,10)- this.state.x_temp)/10000;
+        this.state.y_position = parseInt(event.target.style.top, 10) +(parseInt(y,10)-this.state.y_temp)/10000;
+        console.log("x: "+event.target.style.left)
+         
+
+
         this.state.borderRadius = event.target.style.borderRadius
         this.state.borderWidth = event.target.style.borderWidth
         this.state.fontSize = event.target.style.fontSize
@@ -107,13 +155,15 @@ class WireframeScreen extends Component {
         this.state.backgroundcolor = event.target.style.backgroundColor
         this.state.bordercolor = event.target.style.borderColor
         this.state.text = event.target.value
-        
-        console.log("this target   "+event.target.id)
-        console.log("x_position   "+event.target.style.borderRadius)
+
+        this.state.x_temp = parseInt(x,10)
+        this.state.y_temp = parseInt(y,10)
+
         this.forceUpdate();
 
      }
 
+     
 
       create_textfield= () => {
 
@@ -244,8 +294,13 @@ class WireframeScreen extends Component {
         this.setState({ display_border_ColorPicker: false })
       };
 
+   
 
     render() {
+
+        let Draggable = require('react-draggable');
+        let DraggableCore = Draggable.DraggableCore;
+
         const popover = {
             position: 'absolute',
             zIndex: '2',
@@ -302,46 +357,12 @@ class WireframeScreen extends Component {
                 </div>
                 </div>
 
-                <div className="middle_container" id = "main_page">
+                <div className="middle_container" id = "main_page" onClick={this.handleUnselect}>
                     {items.map((item) => (
-                        // const type = item.type
-                        // if(item.type === "container"){
-                        //     var elememt = document.createElement("div");
-                        //     elememt.style.zIndex = 1;
-                        // }
-                        // else if(item.type === "label"){
-                        //     var elememt = document.createElement("INPUT");
-                        //     elememt.setAttribute("type", "text");
-                        //     elememt.style.zIndex = 2;
-                        // }
-                        // else if(item.type === "textfield"){
-                        //     var elememt = document.createElement("INPUT");
-                        //     elememt.setAttribute("type", "text");
-                        //     elememt.style.zIndex = 2;
-                        // }
-                        // else if(item.type === "button"){
-                        //     var elememt = document.createElement("button");
-                        //     elememt.innerHTML = "Do Something";
-                        //     elememt.style.zIndex = 2;
-                        // }
-                        // else{
-                        //     var elememt = document.createElement("div");
-                        //     elememt.style.zIndex = 1; 
-                        // }
-                        // const position = "absolute";
-                        // const left = item.x_position+'px';
-                        // const top = item.y_position+'px';
-                        // const backgroundColor=item.background;
-                        // const borderColor = item.border_color;
-                        // const borderRadius = item.border_radius;
-                        // const borderWidth = item.border_thickness;
-                        // const fontSize = item.font+'px';
-                        // const width = item.width+'px';
-                        // const height = item.height+'px';
-                        // var body = document.getElementById("main_page");
-                        // body.appendChild(elememt);
                         
-                        <WireframeComponent item = {item} handleClick={this.handleClick}/>
+                        
+                        <WireframeComponent item = {item} handleClick={this.handleClick}
+                    />
                          
                         // left = {left}
                         // top = {top}

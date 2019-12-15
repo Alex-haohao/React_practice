@@ -7,7 +7,7 @@
             "items": [
                 {
                     "x_position": 200,
-                    "y_psition": 300,
+                    "y_position": 300,
                     "width": 300,
                     "height": 20,
                     "type":"container",
@@ -21,7 +21,7 @@
                 },
                 {
                     "x_position": 400,
-                    "y_psition": 200,
+                    "y_position": 200,
                     "width": 40,
                     "height": 80,
                     "type":"label",
@@ -36,7 +36,7 @@
                 },
                 {
                     "x_position": 300,
-                    "y_psition": 600,
+                    "y_position": 600,
                     "width": 200,
                     "height": 50,
                     "type":"textfield",
@@ -57,7 +57,7 @@
             "items": [
                 {
                     "x_position": 200,
-                    "y_psition": 200,
+                    "y_position": 200,
                     "width": 50,
                     "height": 100,
                     "type":"container",
@@ -71,7 +71,7 @@
                 },
                 {
                     "x_position": 200,
-                    "y_psition": 300,
+                    "y_position": 300,
                     "width": 40,
                     "height": 80,
                     "type":"label",
@@ -85,7 +85,7 @@
                 },
                 {
                     "x_position": 50,
-                    "y_psition": 70,
+                    "y_position": 70,
                     "width": 300,
                     "height": 50,
                     "type":"textfield",
