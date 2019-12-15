@@ -24,6 +24,19 @@ class TodoListLinks extends React.Component {
                 });
       }
 
+      handledeleteList = (e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        const { target } = e;
+
+        const fireStore = getFirestore();
+            fireStore.collection('wireframes').doc(target.id).delete().then(() => {
+                    console.log("delete data");
+                }).catch((err) => {
+                    console.log(err);
+                });
+    }
+
     render() {
         const wireframes = this.props.wireframes;
         const fireStore = getFirestore();
@@ -40,6 +53,7 @@ class TodoListLinks extends React.Component {
          console.log("is admin: "+user[0].id)
         }
 
+        
       
         
         return (
@@ -48,6 +62,9 @@ class TodoListLinks extends React.Component {
                 .map(wireframe => (
                     <Link to={'/wireframes/' + wireframe.id} key={wireframe.id}  onClick={() => {
                         const fireStore = getFirestore();
+                  if(!wireframe.id){
+             return<React.Fragment/>
+         }      
             fireStore.collection('wireframes').doc(wireframe.id).update({
                 createdAt: fireStore.FieldValue.serverTimestamp(),
 
@@ -57,7 +74,9 @@ class TodoListLinks extends React.Component {
                     console.log(err);
                 });
                       }}  >
-                        <TodoListCard wireframe={wireframe} />
+                          
+                        <TodoListCard wireframe={wireframe} id ={wireframe.id}
+                        handledeleteList={this.handledeleteList.bind(this)}/>
                     </Link>
                 ))}
             </div>

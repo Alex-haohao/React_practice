@@ -34,22 +34,7 @@ class wireframeComponent extends React.Component {
         this.setState({width: size.width, height: size.height});
       };
 
-      adjustXPos = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const {x, y} = this.state.controlledPosition;
-        this.setState({controlledPosition: {x: x - 10, y}});
-      };
-    
-      adjustYPos = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const {controlledPosition} = this.state;
-        const {x, y} = controlledPosition;
-        this.setState({controlledPosition: {x, y: y - 10}});
-        this.setState({controlledPosition: {x: x - 10, y}});
-
-      };
+     
 
     render() {
         console.log(this.state.controlledPosition)
@@ -68,15 +53,15 @@ class wireframeComponent extends React.Component {
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 zIndex:1    }}
-        size={{ width: this.state.width, height: this.state.height }}
-        position={{ x: this.state.x, y: this.state.y }}
+        size={{ width: parseInt(this.state.width,10), height: parseInt(this.state.height,10) }}
+        position={{ x: parseInt(this.state.x,10), y: parseInt(this.state.y,10) }}
         onDragStop={(e, d) => {
-          this.setState({ x: d.x, y: d.y });
+          this.setState({ x: parseInt(d.x,10), y: parseInt(d.y,10) });
         }}
         onResizeStop={(e, direction, ref, delta, position) => {
           this.setState({
-            width: ref.style.width,
-            height: ref.style.height,
+            width: parseInt(ref.style.width,10),
+            height: parseInt(ref.style.height,10),
             ...position
           });
         }}
@@ -88,11 +73,11 @@ class wireframeComponent extends React.Component {
             borderRadius : item.border_radius,
             borderWidth : item.border_thickness,
             fontSize : item.font,
-            width : this.state.width,
-                height : this.state.height,
+            width : parseInt(this.state.width,10),
+            height : parseInt(this.state.height,10),
             zIndex:1   }}
             id = {item.id}
-            onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
+            onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}>
             </div>
       </Rnd>
 
@@ -112,18 +97,18 @@ class wireframeComponent extends React.Component {
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 zIndex:2    }}
-        size={{ width: this.state.width, height: this.state.height }}
-        position={{ x: this.state.x, y: this.state.y }}
-        onDragStop={(e, d) => {
-          this.setState({ x: d.x, y: d.y });
-        }}
-        onResizeStop={(e, direction, ref, delta, position) => {
-          this.setState({
-            width: ref.style.width,
-            height: ref.style.height,
-            ...position
-          });
-        }}
+                size={{ width: parseInt(this.state.width,10), height: parseInt(this.state.height,10) }}
+                position={{ x: parseInt(this.state.x,10), y: parseInt(this.state.y,10) }}
+                onDragStop={(e, d) => {
+                  this.setState({ x: parseInt(d.x,10), y: parseInt(d.y,10) });
+                }}
+                onResizeStop={(e, direction, ref, delta, position) => {
+                  this.setState({
+                    width: parseInt(ref.style.width,10),
+                    height: parseInt(ref.style.height,10),
+                    ...position
+                  });
+                }}
       >
         
         <input  type="text" className="browser-default"  style={{position : "absolute",
@@ -133,16 +118,17 @@ class wireframeComponent extends React.Component {
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 fontSize : item.font,
-                width : this.state.width,
-                height : this.state.height,
+                width : parseInt(this.state.width,10),
+                height : parseInt(this.state.height,10),
                 zIndex:2    }}
                 id = {item.id}
                 value ={item.text}
-                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
+                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}>
                 </input >
       </Rnd>
 
 
+        
 
 
             
@@ -163,18 +149,18 @@ class wireframeComponent extends React.Component {
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 zIndex:2    }}
-        size={{ width: this.state.width, height: this.state.height }}
-        position={{ x: this.state.x, y: this.state.y }}
-        onDragStop={(e, d) => {
-          this.setState({ x: d.x, y: d.y });
-        }}
-        onResizeStop={(e, direction, ref, delta, position) => {
-          this.setState({
-            width: ref.style.width,
-            height: ref.style.height,
-            ...position
-          });
-        }}
+                size={{ width: parseInt(this.state.width,10), height: parseInt(this.state.height,10) }}
+                position={{ x: parseInt(this.state.x,10), y: parseInt(this.state.y,10) }}
+                onDragStop={(e, d) => {
+                  this.setState({ x: parseInt(d.x,10), y: parseInt(d.y,10) });
+                }}
+                onResizeStop={(e, direction, ref, delta, position) => {
+                  this.setState({
+                    width: parseInt(ref.style.width,10),
+                    height: parseInt(ref.style.height,10),
+                    ...position
+                  });
+                }}
       >
         
         <input  type="text" className="browser-default"  style={{position : "absolute",
@@ -183,12 +169,12 @@ class wireframeComponent extends React.Component {
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 fontSize : item.font,
-                width : this.state.width,
-                height : this.state.height,
+                width : parseInt(this.state.width,10),
+            height : parseInt(this.state.height,10),
                 zIndex:2    }}
                 id = {item.id}
                 value ={item.text}
-                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
+                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}>
                 </input>
       </Rnd>
             );
@@ -205,35 +191,33 @@ class wireframeComponent extends React.Component {
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 zIndex:2    }}
-        size={{ width: this.state.width, height: this.state.height }}
-        position={{ x: this.state.x, y: this.state.y }}
-        onDragStop={(e, d) => {
-          this.setState({ x: d.x, y: d.y });
-        }}
-        onResizeStop={(e, direction, ref, delta, position) => {
-          this.setState({
-            width: ref.style.width,
-            height: ref.style.height,
-            ...position
-          });
-        }}
+                size={{ width: parseInt(this.state.width,10), height: parseInt(this.state.height,10) }}
+                position={{ x: parseInt(this.state.x,10), y: parseInt(this.state.y,10) }}
+                onDragStop={(e, d) => {
+                  this.setState({ x: parseInt(d.x,10), y: parseInt(d.y,10) });
+                }}
+                onResizeStop={(e, direction, ref, delta, position) => {
+                  this.setState({
+                    width: parseInt(ref.style.width,10),
+                    height: parseInt(ref.style.height,10),
+                    ...position
+                  });
+                }}
       >
         
         <button  type="button" className="browser-default"  style={{position : "absolute",
-                left : item.x_position,
-                top :item.y_position,
                 backgroundColor:item.background,
                 borderColor : item.border_color,
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 fontSize : item.font,
-                width : this.state.width,
-                height : this.state.height,
+                width : parseInt(this.state.width,10),
+            height : parseInt(this.state.height,10),
                 zIndex:2    }}
                 id = {item.id}
                 value ={item.text}
 
-                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
+                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}>
                 
                     {item.text}
                 </button>
@@ -251,18 +235,18 @@ class wireframeComponent extends React.Component {
                 borderRadius : item.border_radius,
                 borderWidth : item.border_thickness,
                 zIndex:1    }}
-        size={{ width: this.state.width, height: this.state.height }}
-        position={{ x: this.state.x, y: this.state.y }}
-        onDragStop={(e, d) => {
-          this.setState({ x: d.x, y: d.y });
-        }}
-        onResizeStop={(e, direction, ref, delta, position) => {
-          this.setState({
-            width: ref.style.width,
-            height: ref.style.height,
-            ...position
-          });
-        }}
+                size={{ width: parseInt(this.state.width,10), height: parseInt(this.state.height,10) }}
+                position={{ x: parseInt(this.state.x,10), y: parseInt(this.state.y,10) }}
+                onDragStop={(e, d) => {
+                  this.setState({ x: parseInt(d.x,10), y: parseInt(d.y,10) });
+                }}
+                onResizeStop={(e, direction, ref, delta, position) => {
+                  this.setState({
+                    width: parseInt(ref.style.width,10),
+                    height: parseInt(ref.style.height,10),
+                    ...position
+                  });
+                }}
       >
         
         <div  style={{position : "absolute",
@@ -271,11 +255,11 @@ class wireframeComponent extends React.Component {
             borderRadius : item.border_radius,
             borderWidth : item.border_thickness,
             fontSize : item.font,
-            width : this.state.width,
-                height : this.state.height,
+            width : parseInt(this.state.width,10),
+            height : parseInt(this.state.height,10),
             zIndex:1   }}
             id = {item.id}
-            onClick = {this.props.handleClick.bind(this,this.state.x,this.state.height,this.state.width,this.state.height)}>
+            onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}>
             </div>
       </Rnd>
 

@@ -23,6 +23,7 @@ class WireframeScreen extends Component {
         height : 0,
         id:0,
         text:"",
+        name:"",
         
         display_backgroundcolor_ColorPicker: false,
         backgroundcolor: "#BCAFAB",
@@ -33,6 +34,82 @@ class WireframeScreen extends Component {
           y_temp:0
       };
 
+
+
+      constructor(props){
+        super(props);
+        this.undo_key = this.undo_key.bind(this);
+        this.redo_key = this.redo_key.bind(this);
+    
+      }
+      showMessage () {
+        alert('SOME MESSAGE');
+      }
+    
+      undo_key(e){
+        e.preventDefault() 
+        if(e.keyCode===68 && e.ctrlKey) {
+            console.log("duplicate")
+            var itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
+            var item = itemarray[0]
+            var realitem = {}
+
+            if(item.id >0){
+                var sorted = [...this.props.wireframe.items]
+                sorted = sorted.sort((a, b) =>  (a.id > b.id) ? 1 : -1 )
+                var max = 1
+                if(sorted.length >0){
+                max = sorted[sorted.length -1].id +1
+                }
+                realitem.id = max
+                realitem.x_position = item.x_position+100;
+                realitem.y_position = item.y_position+100;
+                realitem.position = item.position;
+                realitem.background = item.background;
+                realitem.border_color = item.border_color
+                realitem.border_radius = item.border_radius;
+                realitem.type = item.type;
+                realitem.border_thickness=item.border_thickness;
+                realitem.font = item.font;
+                realitem.width = item.width;
+                realitem.height =item.height;
+                realitem.text = item.text
+
+                this.props.wireframe.items.push(realitem);
+                this.forceUpdate();
+ 
+            }
+
+
+        }
+      }
+    
+      redo_key(e){
+        e.preventDefault() 
+        if(e.keyCode===8 ) {
+          console.log("delete")
+
+          var itemarray = this.props.wireframe.items.filter(item => (item.id != this.state.id))
+          this.props.wireframe.items = itemarray;
+          this.forceUpdate();
+
+    
+        }
+      }
+    
+      componentDidMount(){
+        document.addEventListener('keydown',this.redo_key);
+    
+        document.addEventListener('keydown',this.undo_key);
+    
+    
+      }
+      componentWillUnmount(){
+            document.removeEventListener('keydown',this.redo_key);
+    
+        document.removeEventListener('keydown',this.undo_key);
+    
+      }
       
 
 
@@ -43,6 +120,13 @@ class WireframeScreen extends Component {
         event.stopPropagation()
         event.preventDefault()
 
+        const itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
+
+        if(itemarray.length >0){const item = itemarray[0]
+            item.x_position = this.state.x_position;
+            item.y_position = this.state.y_position;
+            item.width = this.state.width;
+            item.height = this.state.height}
 
         
         this.state.x_position = 0;
@@ -115,6 +199,18 @@ class WireframeScreen extends Component {
         this.state.text = target.value
        }
 
+       handlename = (e) =>{
+        e.preventDefault()
+        const { target } = e;
+
+        this.setState(state => ({
+            ...state,
+            [target.id]: target.value,
+          }));
+        this.state.name = target.value
+        this.props.wireframe.name = target.value
+       }
+
        handleborder_thickness = (e) =>{
         e.preventDefault()
         const { target } = e;
@@ -131,18 +227,18 @@ class WireframeScreen extends Component {
         event.preventDefault()
 
     
-        this.state.x_position = x;
-        this.state.y_position = y;
-        this.state.width = w
-        this.state.height = h
-        console.log("x: "+x)
-        const itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
+        this.state.x_position = parseInt(x,10);
+        this.state.y_position = parseInt(y,10);
+        this.state.width = parseInt(w,10)
+        this.state.height = parseInt(h,10)
+        console.log("x: "+w)
+        // const itemarray = this.props.wireframe.items.filter(item => (item.id == this.state.id))
 
-        if(itemarray.length >0){const item = itemarray[0]
-            item.x_position = this.state.x_position;
-            item.y_position = this.state.y_position;
-            item.width = this.state.width;
-            item.height = this.state.height}
+        // if(itemarray.length >0){const item = itemarray[0]
+        //     item.x_position = this.state.x_position;
+        //     item.y_position = this.state.y_position;
+        //     item.width = this.state.width;
+        //     item.height = this.state.height}
 
 
 
@@ -154,6 +250,7 @@ class WireframeScreen extends Component {
         this.state.backgroundcolor = event.target.style.backgroundColor
         this.state.bordercolor = event.target.style.borderColor
         this.state.text = event.target.value
+        
 
         this.state.x_temp = parseInt(x,10)
         this.state.y_temp = parseInt(y,10)
@@ -168,7 +265,12 @@ class WireframeScreen extends Component {
 
         var sorted = [...this.props.wireframe.items]
         sorted = sorted.sort((a, b) =>  (a.id > b.id) ? 1 : -1 )
-        const max = sorted[sorted.length -1].id +1
+
+        var max = 1
+        if(sorted.length >0){
+        max = sorted[sorted.length -1].id +1
+        }
+        
        
         const item = {position : "absolute",
         x_position : 100,
@@ -192,7 +294,10 @@ class WireframeScreen extends Component {
       create_label= () => {
         var sorted = [...this.props.wireframe.items]
         sorted = sorted.sort((a, b) =>  (a.id > b.id) ? 1 : -1 )
-        const max = sorted[sorted.length -1].id +1
+        var max = 1
+        if(sorted.length >0){
+        max = sorted[sorted.length -1].id +1
+        }
 
         const item = {position : "absolute",
         x_position : 220,
@@ -219,7 +324,10 @@ class WireframeScreen extends Component {
        create_button = () => {
         var sorted = [...this.props.wireframe.items]
         sorted = sorted.sort((a, b) =>  (a.id > b.id) ? 1 : -1 )
-        const max = sorted[sorted.length -1].id +1
+        var max = 1
+        if(sorted.length >0){
+        max = sorted[sorted.length -1].id +1
+        }
 
         const item = {position : "absolute",
         x_position : 200,
@@ -240,10 +348,29 @@ class WireframeScreen extends Component {
         this.forceUpdate();
       }
 
+      handle_submit= () => {
+
+        const fireStore = getFirestore();
+            fireStore.collection('wireframes').doc(this.props.wireframe.id).update({
+                createdAt: fireStore.FieldValue.serverTimestamp(),
+                items: this.props.wireframe.items,
+                name: this.state.name,
+
+            }).then(() => {
+                    console.log("update the data");
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+      }
+
       create_container = () => {
         var sorted = [...this.props.wireframe.items]
         sorted = sorted.sort((a, b) =>  (a.id > b.id) ? 1 : -1 )
-        const max = sorted[sorted.length -1].id +1
+        var max = 1
+        if(sorted.length >0){
+        max = parseInt(sorted[sorted.length -1].id,10) +1
+        }
 
         const item = {position : "absolute",
         x_position : 300,
@@ -318,22 +445,37 @@ class WireframeScreen extends Component {
              return<React.Fragment/>
          }
 
+         const { auth } = this.props;
+            if (auth.uid != wireframe.userid) {
+            return <Redirect to="/" />;
+            }
+
         const items = this.props.wireframe.items;
+        const name = this.props.wireframe.name
         this.state.items = items;
+        this.state.name = name;
         return (
             
             <div className="todo_home">
 
                 <div className="left_container">
                 <div className="button_container">
-                <button type="button" className="material-icons " 
+
+                <button type="button" className="material-icons " style={{position : "relative ",width: "10px"}}
                     >zoom_in</button>
-                    <button type="button" className="material-icons "
+                    <button type="button" className="material-icons "style={{position : "relative",width: "10px"}}
                     >zoom_out</button>
-                    <button type="button" className="waves-effect waves-light btn "
-                    >&#10005;</button>
-                    <button type="button" className="waves-effect waves-light btn "
-                    >&#10005;</button>
+
+
+
+                    <button type="button" className="waves-effect waves-light btn"  style={{fontSize:10}} onClick={this.handle_submit}
+                    >Save</button>
+
+<Link to="/" className="brand-logo">
+
+                    <button type="button" className="waves-effect waves-light btn" style={{fontSize:8}}
+                    >cancel</button>
+</Link>
                 </div>
 
                 <div className="wire_container">
@@ -417,6 +559,10 @@ class WireframeScreen extends Component {
 
                 <p>inner text: 
                 <input type="text" value={this.state.text} onChange={this.handletext} ></input> 
+                </p>
+
+                <p>wireframe name:: 
+                <input type="text" value={this.state.name} onChange={this.handlename} ></input> 
                 </p>
             
 

@@ -18,14 +18,17 @@ class HomeScreen extends Component {
     handleNewList = () => {
         const fireStore = getFirestore();
             fireStore.collection('wireframes').add({
+                    userid: this.props.auth.uid,
                     name: "Unknow",
                     items: [],
                     createdAt: fireStore.FieldValue.serverTimestamp(),
                 }).then(() => {
+                    console.log("this belong to "+this.props.auth.uid)
                     console.log("add new data");
                 }).catch((err) => {
                     console.log(err);
                 });
+                
     }
 
     render() {
@@ -52,7 +55,7 @@ class HomeScreen extends Component {
                         <div className="home_new_list_container">
                         {/* <Link to={"/todoList/"+this.props.id} ></Link> */}
                                 <button className="home_new_list_button" onClick={this.handleNewList}>
-                                    Create a New To Do List
+                                    Create a New wireframe
                                 </button>
 
 
