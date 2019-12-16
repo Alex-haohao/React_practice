@@ -292,12 +292,12 @@ class WireframeScreen extends Component {
         event.stopPropagation()
         event.preventDefault()
         
-    
+       
         this.state.x_position = parseInt(x,10);
         this.state.y_position = parseInt(y,10);
         this.state.width = parseInt(w,10)
         this.state.height = parseInt(h,10)
-     
+        
 
 
         this.state.borderRadius = event.target.style.borderRadius

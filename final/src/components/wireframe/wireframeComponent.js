@@ -8,6 +8,7 @@ class wireframeComponent extends React.Component {
 
     state = {
         activeDrags: 0,
+        showup:false,
         
         controlledPosition: {
           x: this.props.item.x_position, y: this.props.item.y_position
@@ -23,6 +24,10 @@ class wireframeComponent extends React.Component {
       onResize = (event, {element, size, handle}) => {
         this.setState({width: size.width, height: size.height});
       };
+
+      handleshowup =()=>{
+        this.setState({showup: !this.state.showup});
+      }
 
      
 
@@ -67,10 +72,21 @@ class wireframeComponent extends React.Component {
             height : parseInt(this.state.height,10),
             zIndex:1   }}
             id = {item.id}
-            onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}>
+            onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}
+            onMouseDown ={this.handleshowup}>
+            
+
+    
+
+    {this.state.showup ? <div class="top_left" id="tl"></div> : null}
+    {this.state.showup ? <div class="top_right" id="tr"></div> : null}
+    {this.state.showup ? <div class="b_left" id="bl"></div> : null}
+    {this.state.showup ? <div class="b_right" id="br"></div> : null}
 
 
 
+
+  
             </div>
 
 
@@ -212,8 +228,17 @@ class wireframeComponent extends React.Component {
                 id = {item.id}
                 value ={item.text}
 
-                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}>
-                
+                onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}
+                onMouseDown ={this.handleshowup}>
+                    
+            
+
+    
+
+            {this.state.showup ? <div class="top_left" id="tl"></div> : null}
+            {this.state.showup ? <div class="top_right" id="tr"></div> : null}
+            {this.state.showup ? <div class="b_left" id="bl"></div> : null}
+            {this.state.showup ? <div class="b_right" id="br"></div> : null}
                     {item.text}
                 </button>
       </Rnd>

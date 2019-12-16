@@ -263,12 +263,42 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
 
 }
 
-#container div {
+.top_left{
+  left: 100%;
+  bottom: 100%;
   position: absolute;
   width: 20px;
   height: 20px;
   background: red;
 }
+
+.top_right{
+  right: 100%;
+  bottom: 100%;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+}
+
+.b_left{
+  left: 100%;
+  top: 100%;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+}
+
+.b_right{
+  right: 100%;
+  top: 100%;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+}
+
 .top {
   top: 0; 
 }
