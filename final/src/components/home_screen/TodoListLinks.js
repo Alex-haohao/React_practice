@@ -7,10 +7,13 @@ import { getFirestore } from 'redux-firestore';
 import ReactDOM from "react-dom";
 import { firestoreConnect } from 'react-redux-firebase';
 import { NavLink, Redirect } from 'react-router-dom';
+import TrashScreen from './trashScreen'
+
 
 class TodoListLinks extends React.Component {
-
-    
+    state ={        showPopup:false,
+        currentid :0
+    }
 
     handletime = () => {
         
@@ -25,18 +28,20 @@ class TodoListLinks extends React.Component {
                 });
       }
 
-      handledeleteList = (e) => {
+      handledeleteList = (id,e) => {
         e.stopPropagation()
         e.preventDefault()
         const { target } = e;
-        if(!target.id){
+        if(id==0){
             window.location.reload();
 
             return <Redirect to="/" />;
         }
+        this.setState({showPopup: !this.state.showPopup});
+
 
         const fireStore = getFirestore();
-            fireStore.collection('wireframes').doc(target.id).delete().then(() => {
+            fireStore.collection('wireframes').doc(id).delete().then(() => {
                     console.log("delete data");
                 }).catch((err) => {
                     console.log(err);
@@ -66,6 +71,7 @@ class TodoListLinks extends React.Component {
     
         return promise;
       }
+      
       componentDidMount() {
 
         console.log('This happens 3rd.');
@@ -84,7 +90,12 @@ class TodoListLinks extends React.Component {
 
 
 
-
+      goTash =(id,e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        this.setState({showPopup: !this.state.showPopup});
+        this.state.currentid = id
+      }
 
 
     render() {
@@ -100,6 +111,7 @@ class TodoListLinks extends React.Component {
             return <h2>Loading...</h2>;
           }
 
+          
 
         const wireframes = this.props.wireframes;
         const fireStore = getFirestore();
@@ -118,14 +130,24 @@ class TodoListLinks extends React.Component {
          if(user[0].isadmin == true){
             return (
                 <div className="todo-lists section" >
+
+ {this.state.showPopup ? <TrashScreen goTash={this.goTash.bind(this)}
+             wireframes={this.props.wireframes}
+             handledeleteList = {this.handledeleteList}
+             id ={this.state.currentid}/> 
+             : null}
+               
+
                     {wireframes && wireframes
                     .map(wireframe => (
                         <Link to={'/wireframes/' + wireframe.id} key={wireframe.id}  onClick={() => {
                             const fireStore = getFirestore();
                       if(!wireframe.id){
-                        window.location.reload();
-                        
-             }      
+                        window.location.reload();      
+             }  
+             
+           
+
                 fireStore.collection('wireframes').doc(wireframe.id).update({
                     createdAt: fireStore.FieldValue.serverTimestamp(),
     
@@ -137,7 +159,9 @@ class TodoListLinks extends React.Component {
                           }}  >
                               
                             <TodoListCard wireframe={wireframe} id ={wireframe.id}
-                            handledeleteList={this.handledeleteList.bind(this)}/>
+                            goTash={this.goTash.bind(this)}/>
+                              
+            
                         </Link>
                     ))}
                 </div>
@@ -148,10 +172,17 @@ class TodoListLinks extends React.Component {
         
         return (
             <div className="todo-lists section" >
+                {this.state.showPopup ? <TrashScreen goTash={this.goTash.bind(this)}
+                wireframes={this.props.wireframes}
+                id ={this.state.currentid}
+                handledeleteList = {this.handledeleteList}/> 
+                : null}
+
+
                 {wireframes && wireframes.filter(wireframe => (wireframe.userid == this.props.auth.uid))
                 .map(wireframe => (
                     <Link to={'/wireframes/' + wireframe.id} key={wireframe.id}  onClick={() => {
-                        const fireStore = getFirestore();
+                        const fireStore = getFirestore(); 
                   if(!wireframe.id){
                     window.location.reload();
                     
@@ -167,7 +198,8 @@ class TodoListLinks extends React.Component {
                       }}  >
                           
                         <TodoListCard wireframe={wireframe} id ={wireframe.id}
-                        handledeleteList={this.handledeleteList.bind(this)}/>
+                        goTash={this.goTash.bind(this)}/>
+                        
                     </Link>
                 ))}
             </div>

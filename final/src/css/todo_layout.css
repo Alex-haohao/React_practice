@@ -232,3 +232,29 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
 .hover-button:hover .hover-button--on {
   display: inline;
 }
+
+.delete_popup{
+  z-index: 1;
+  position: fixed;  
+  width: 50%;  
+  height: 50%;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;  
+  background-color: #EEEEDD; /* Fallback color */
+
+}
+.popup\_inner {  
+  position: fixed;  
+  left: 25%;  
+  right: 25%;  
+  top: 25%;  
+  bottom: 25%;  
+  margin: auto;  
+  border-radius: 20px;
+  background-color: rgb(0,0,0); /* Fallback color */
+  
+  
+}

@@ -5,11 +5,11 @@ import { NavLink, Redirect } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import TodoListLinks from './TodoListLinks'
 import { getFirestore } from 'redux-firestore';
-
+import TrashScreen from './trashScreen'
 
 class HomeScreen extends Component {
     state = {
-        temp : null
+        temp : null,
       }
 
       
@@ -35,6 +35,8 @@ class HomeScreen extends Component {
                 
     }
 
+   
+
     render() {
         var user = this.props.auth.uid;
         console.log("current user: "+user)
@@ -49,6 +51,10 @@ class HomeScreen extends Component {
                     <div className="col s12 m4">
                         <TodoListLinks />
                     </div>
+
+                   
+
+            
 
                     <div className="col s8">
                         <div className="banner">

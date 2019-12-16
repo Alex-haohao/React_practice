@@ -227,7 +227,9 @@ class WireframeScreen extends Component {
           item.font = this.state.fontSize;
           item.width = this.state.width;
           item.height = this.state.height;
+          if(this.state.text !== ""){
           item.text = this.state.text;
+          }
           this.forceUpdate();
 
       }
@@ -413,8 +415,8 @@ class WireframeScreen extends Component {
                 createdAt: fireStore.FieldValue.serverTimestamp(),
                 items: this.props.wireframe.items,
                 name: this.state.name,
-                dimension_height:this.state.diimension_height,
-                dimension_width:this.state.diimension_width
+                dimension_height:this.props.wireframe.dimension_height,
+                dimension_width:this.props.wireframe.dimension_width
 
             }).then(() => {
                     console.log("update the data");
