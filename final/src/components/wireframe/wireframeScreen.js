@@ -225,7 +225,7 @@ class WireframeScreen extends Component {
           item.font = this.state.fontSize;
           item.width = this.state.width;
           item.height = this.state.height;
-          if(this.state.text !== ""){
+          if(this.state.text){
           item.text = this.state.text;
           }
           this.forceUpdate();

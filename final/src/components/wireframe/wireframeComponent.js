@@ -8,9 +8,7 @@ class wireframeComponent extends React.Component {
 
     state = {
         activeDrags: 0,
-        deltaPosition: {
-          x: 0, y: 0
-        },
+        
         controlledPosition: {
           x: this.props.item.x_position, y: this.props.item.y_position
         },
@@ -20,15 +18,7 @@ class wireframeComponent extends React.Component {
         y:this.props.item.y_position
       };
 
-      handleDrag = (e, ui) => {
-        const {x, y} = this.state.deltaPosition;
-        this.setState({
-          deltaPosition: {
-            x: x + ui.deltaX,
-            y: y + ui.deltaY,
-          }
-        });
-      };
+      
 
       onResize = (event, {element, size, handle}) => {
         this.setState({width: size.width, height: size.height});
@@ -67,7 +57,7 @@ class wireframeComponent extends React.Component {
         }}
       >
         
-        <div  style={{position : "absolute",
+        <div id="container"  style={{position : "absolute",
             backgroundColor:item.background,
             borderColor : item.border_color,
             borderRadius : item.border_radius,
@@ -78,7 +68,12 @@ class wireframeComponent extends React.Component {
             zIndex:1   }}
             id = {item.id}
             onClick = {this.props.handleClick.bind(this,this.state.x,this.state.y,this.state.width,this.state.height)}>
+
+
+
             </div>
+
+
       </Rnd>
 
 
