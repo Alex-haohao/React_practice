@@ -28,8 +28,6 @@ class WireframeScreen extends Component {
         delete : 0,
         diimension_width:0,
         diimension_height:0,
-
-        
         display_backgroundcolor_ColorPicker: false,
         backgroundcolor: "#BCAFAB",
         display_border_ColorPicker: false,
@@ -293,7 +291,7 @@ class WireframeScreen extends Component {
       handleClick = (x,y,w,h,event) => {
         event.stopPropagation()
         event.preventDefault()
-
+        
     
         this.state.x_position = parseInt(x,10);
         this.state.y_position = parseInt(y,10);
@@ -482,15 +480,7 @@ class WireframeScreen extends Component {
         this.setState({ display_border_ColorPicker: false })
       };
 
-      handle_zoom_in= () => {
-
-        var zoom = document.getElementById("middle_container_child_id");
-        zoom.style.transform = "scale("+this.state.zoom*2+")";
-        this.state.zoom=this.state.zoom*2
-
-
-        this.forceUpdate();
-      }
+      
 
       handle_dimension_click= () => {
         if(this.state.diimension_width <=5000 && this.state.diimension_width>= 1
@@ -529,7 +519,17 @@ class WireframeScreen extends Component {
        }
 
        
-      
+       handle_zoom_in= () => {
+        console.log("zoom in "+this.state.zoom)
+
+        var zoom = document.getElementById("middle_container_child_id");
+        zoom.style.transform = "scale("+this.state.zoom*2+")";
+
+        this.state.zoom=this.state.zoom*2
+
+
+        this.forceUpdate();
+      }
 
       handle_zoom_out= () => {
         var zoom = document.getElementById("middle_container_child_id");
@@ -553,9 +553,12 @@ class WireframeScreen extends Component {
             return <h2>Loading...</h2>;
           }
 
+          if(!this.state.zoom){
+              this.state.zoom =1
+          }
+
         let Draggable = require('react-draggable');
         let DraggableCore = Draggable.DraggableCore;
-
         const popover = {
             position: 'absolute',
             zIndex: '2',
